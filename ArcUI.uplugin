@@ -1,0 +1,33 @@
+{
+  "FileVersion": 3,
+  "Version": 1,
+  "VersionName": "0.1",
+  "FriendlyName": "ArcUI",
+  "Description": "UI Framework based upon a MVP (Model-View-Presenter) architecture",
+  "Category": "UI",
+  "CreatedBy": "Fabien Poupineau",
+  "CreatedByURL": "https://github.com/fp12",
+  "DocsURL": "",
+  "MarketplaceURL": "",
+  "SupportURL": "",
+  "EnabledByDefault": false,
+  "IsBetaVersion" : false,
+  "IsExperimentalVersion": true,
+  "Modules": [
+    {
+      "Name": "ArcUI",
+      "Type": "Runtime",
+      "LoadingPhase": "Default"
+    }
+  ],
+  "Plugins": [
+    {
+      "Name": "CommonUI",
+      "Enabled": true
+    },
+    {
+      "Name": "DataRegistry",
+      "Enabled": true
+    }
+  ]
+}
