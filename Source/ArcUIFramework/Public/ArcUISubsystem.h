@@ -29,7 +29,7 @@ struct FArcUIManagedWidget
 
 
 UCLASS()
-class ARCUI_API UArcUISubsystem : public UGameInstanceSubsystem
+class ARCUIFRAMEWORK_API UArcUISubsystem : public UGameInstanceSubsystem
 {
 	GENERATED_BODY()
 
@@ -46,6 +46,14 @@ public:
 	UFUNCTION(BlueprintCallable, Category="UI", BlueprintCosmetic)
 	void RemoveContext(UPARAM(meta=(Categories = "ArcUI.Context")) FGameplayTag ContextTag);
 
+	/**
+	 * If the context is present, it will be removed
+	 * If the context is not present, it will be added
+	 * @param ContextTag Tag to checked and added or removed
+	 */
+	UFUNCTION(BlueprintCallable, Category="UI", BlueprintCosmetic)
+	void ToggleContext(UPARAM(meta=(Categories = "ArcUI.Context")) FGameplayTag ContextTag);
+	
 	UFUNCTION(BlueprintCallable, Category="UI", BlueprintCosmetic)
 	bool HasContext(UPARAM(meta=(Categories = "ArcUI.Context")) FGameplayTag ContextTag) const;
 

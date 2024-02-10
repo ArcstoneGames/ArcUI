@@ -17,7 +17,7 @@ struct FArcUIAsset;
  * You shouldn't need to call it manually unless you want to load assets on demand or beyond contexts
  */
 UCLASS(Config = Game)
-class ARCUI_API UArcUILoader : public UGameInstanceSubsystem
+class ARCUIFRAMEWORK_API UArcUILoader : public UGameInstanceSubsystem
 {
 	GENERATED_BODY()
 

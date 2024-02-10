@@ -3,9 +3,9 @@
 using UnrealBuildTool;
 
 // ReSharper disable once InconsistentNaming
-public class ArcUI : ModuleRules
+public class ArcUIFramework : ModuleRules
 {
-	public ArcUI(ReadOnlyTargetRules target) : base(target)
+	public ArcUIFramework(ReadOnlyTargetRules target) : base(target)
 	{
 		PublicDependencyModuleNames.AddRange(
 			new[]

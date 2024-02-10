@@ -10,7 +10,7 @@
 class UArcUILayout;
 
 UCLASS(Config=Game, defaultconfig, meta = (DisplayName="ArcUI Settings"))
-class ARCUI_API UArcUISettings final : public UDeveloperSettings
+class ARCUIFRAMEWORK_API UArcUISettings final : public UDeveloperSettings
 {
 	GENERATED_BODY()
 

@@ -1,33 +1,38 @@
 {
-  "FileVersion": 3,
-  "Version": 1,
-  "VersionName": "0.1",
-  "FriendlyName": "ArcUI",
-  "Description": "UI Framework based upon a MVP (Model-View-Presenter) architecture",
-  "Category": "UI",
-  "CreatedBy": "Fabien Poupineau",
-  "CreatedByURL": "https://github.com/fp12",
-  "DocsURL": "",
-  "MarketplaceURL": "",
-  "SupportURL": "",
-  "EnabledByDefault": false,
-  "IsBetaVersion" : false,
-  "IsExperimentalVersion": true,
-  "Modules": [
-    {
-      "Name": "ArcUI",
-      "Type": "Runtime",
-      "LoadingPhase": "Default"
-    }
-  ],
-  "Plugins": [
-    {
-      "Name": "CommonUI",
-      "Enabled": true
-    },
-    {
-      "Name": "DataRegistry",
-      "Enabled": true
-    }
-  ]
+	"FileVersion": 3,
+	"Version": 1,
+	"VersionName": "0.1",
+	"FriendlyName": "Arcstone | UI Framework",
+	"Description": "Arcstone | UI Framework based upon a MVP (Model-View-Presenter) architecture",
+	"Category": "Arcstone",
+	"CreatedBy": "Arcstone",
+	"CreatedByURL": "https://github.com/ArcstoneGames",
+	"DocsURL": "",
+	"MarketplaceURL": "",
+	"SupportURL": "",
+	"EnabledByDefault": false,
+	"IsBetaVersion": false,
+	"IsExperimentalVersion": true,
+	"Modules": [
+		{
+			"Name": "ArcUIFramework",
+			"Type": "Runtime",
+			"LoadingPhase": "Default"
+		},
+		{
+			"Name": "ArcUICommon",
+			"Type": "Runtime",
+			"LoadingPhase": "Default"
+		}
+	],
+	"Plugins": [
+		{
+			"Name": "CommonUI",
+			"Enabled": true
+		},
+		{
+			"Name": "DataRegistry",
+			"Enabled": true
+		}
+	]
 }

@@ -10,7 +10,7 @@
 class UArcUILayout;
 
 USTRUCT(BlueprintType)
-struct ARCUI_API FArcUIContextAction final
+struct ARCUIFRAMEWORK_API FArcUIContextAction final
 {
 	GENERATED_BODY()
 
@@ -33,7 +33,7 @@ struct ARCUI_API FArcUIContextAction final
 
 
 USTRUCT(BlueprintType)
-struct ARCUI_API FArcUIAsset final : public FTableRowBase
+struct ARCUIFRAMEWORK_API FArcUIAsset final : public FTableRowBase
 {
 	GENERATED_BODY()
 

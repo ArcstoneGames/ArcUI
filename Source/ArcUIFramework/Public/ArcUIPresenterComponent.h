@@ -13,7 +13,7 @@ class UArcUIPresenter;
  * Parent class for UI Presenter holding actor components
  */
 UCLASS(Abstract)
-class ARCUI_API UArcUIPresenterComponent : public UActorComponent
+class ARCUIFRAMEWORK_API UArcUIPresenterComponent : public UActorComponent
 {
 	GENERATED_BODY()
 

@@ -11,7 +11,7 @@ class APlayerController;
 class ULocalPlayer;
 
 UCLASS()
-class ARCUI_API UArcUILibrary final : public UBlueprintFunctionLibrary
+class ARCUIFRAMEWORK_API UArcUILibrary final : public UBlueprintFunctionLibrary
 {
 	GENERATED_BODY()
 

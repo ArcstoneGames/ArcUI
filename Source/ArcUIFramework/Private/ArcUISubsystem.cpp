@@ -41,7 +41,7 @@ void UArcUISubsystem::AddContext(FGameplayTag ContextTag)
 	for (const auto& Presenter : Presenters)
 	{
 		if (ensureMsgf(Presenter, TEXT("ArcUISubsystem: stale registered presenter, make sure to call UnRegisterPresenter")) &&
-			Presenter->GetContextTags().HasTag(ContextTag))
+			Presenter->HasContextTag(ContextTag))
 		{
 			Presenter->OnContextAdded(ContextTag);
 		}
@@ -73,13 +73,25 @@ void UArcUISubsystem::RemoveContext(FGameplayTag ContextTag)
 	for (const auto& Presenter : Presenters)
 	{
 		if (ensureMsgf(Presenter, TEXT("ArcUISubsystem: stale registered presenter, make sure to call UnRegisterPresenter")) &&
-			Presenter->GetContextTags().HasTag(ContextTag))
+			Presenter->HasContextTag(ContextTag))
 		{
 			Presenter->OnContextRemoved(ContextTag);
 		}
 	}
 	
 	GetGameInstance()->GetSubsystem<UArcUILoader>()->OnContextRemoved(ContextTag);
+}
+
+void UArcUISubsystem::ToggleContext(FGameplayTag ContextTag)
+{
+	if (HasContext(ContextTag))
+	{
+		RemoveContext(ContextTag);
+	}
+	else
+	{
+		AddContext(ContextTag);
+	}
 }
 
 bool UArcUISubsystem::HasContext(FGameplayTag ContextTag) const
@@ -121,7 +133,7 @@ void UArcUISubsystem::RegisterPresenter(UArcUIPresenter* Presenter)
 
 	for (const auto& ContextTag : ContextTags)
 	{
-		if (Presenter->GetContextTags().HasTag(ContextTag))
+		if (Presenter->HasContextTag(ContextTag))
 		{
 			Presenter->OnContextAdded(ContextTag);
 		}

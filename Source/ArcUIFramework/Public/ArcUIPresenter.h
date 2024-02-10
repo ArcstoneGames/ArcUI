@@ -15,7 +15,7 @@ class AActor;
  * Base class for (standalone) Presenters
  */
 UCLASS(Abstract)
-class ARCUI_API UArcUIPresenter : public UObject
+class ARCUIFRAMEWORK_API UArcUIPresenter : public UObject
 {
 	GENERATED_BODY()
 
@@ -34,6 +34,13 @@ public:
 	 */
 	void SetContextTags(const FGameplayTagContainer& InContextTags) { ContextTags = InContextTags; }
 
+	/**
+	 * @brief Test if the Context is handled by the Presenter
+	 * @param ContextTag Context to test
+	 * @return True if handled
+	 */
+	bool HasContextTag(FGameplayTag ContextTag) const;
+	
 	/**
 	 * @brief First entry point for the Presenter to prepare anything
 	 * @param Actor Owner actor

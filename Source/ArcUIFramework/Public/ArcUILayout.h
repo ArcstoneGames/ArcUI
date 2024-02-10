@@ -20,7 +20,7 @@ class UCommonActivatableWidget;
  */
 UCLASS(Abstract, ClassGroup = UI, meta = (Category = "ArcUI", DisableNativeTick))
 // ReSharper disable once CppClassCanBeFinal
-class ARCUI_API UArcUILayout : public UCommonUserWidget
+class ARCUIFRAMEWORK_API UArcUILayout : public UCommonUserWidget
 {
 	GENERATED_BODY()
 
