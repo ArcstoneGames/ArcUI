@@ -6,13 +6,34 @@
 #include "ArcUICommonTypes.h"
 // CommonUI
 #include "CommonInputSubsystem.h"
+#include "CommonTextBlock.h"
 
 #if WITH_EDITOR
 const FText UArcBoundActionButton::GetPaletteCategory()
 {
 	return ArcUICommon::PaletteCategory;
 }
+
+void UArcBoundActionButton::PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent)
+{
+	Super::PostEditChangeProperty(PropertyChangedEvent);
+
+	if (Text_ActionName)
+	{
+		Text_ActionName->SetText(LabelText);
+	}
+}
 #endif
+
+void UArcBoundActionButton::NativePreConstruct()
+{
+	Super::NativePreConstruct();
+	
+	if (Text_ActionName)
+	{
+		Text_ActionName->SetText(LabelText);
+	}
+}
 
 void UArcBoundActionButton::NativeConstruct()
 {

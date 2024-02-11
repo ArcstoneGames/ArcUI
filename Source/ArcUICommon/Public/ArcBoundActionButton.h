@@ -9,7 +9,7 @@
 
 enum class ECommonInputType : uint8;
 
-UCLASS()
+UCLASS(Abstract, meta = (DisableNativeTick))
 class ARCUICOMMON_API UArcBoundActionButton : public UCommonBoundActionButton
 {
 	GENERATED_BODY()
@@ -17,9 +17,11 @@ class ARCUICOMMON_API UArcBoundActionButton : public UCommonBoundActionButton
 public:
 #if WITH_EDITOR
 	virtual const FText GetPaletteCategory() override;
+	virtual void PostEditChangeProperty(struct FPropertyChangedEvent& PropertyChangedEvent) override;
 #endif
 	
 protected:
+	virtual void NativePreConstruct() override;
 	virtual void NativeConstruct() override;
 	virtual void NativeDestruct() override;
 
@@ -29,6 +31,9 @@ protected:
 	UFUNCTION(BlueprintCallable)
 	ECommonInputType GetInputMethod() const;
 
+	UPROPERTY(EditAnywhere)
+	FText LabelText;
+	
 	UPROPERTY(EditAnywhere, Category = "Styles")
 	TSubclassOf<UCommonButtonStyle> KeyboardStyle;
 
