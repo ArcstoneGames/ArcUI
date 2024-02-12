@@ -52,20 +52,37 @@ public:
 	 * @param InWidget Assigned widget to work with (can be nullptr if self handled)
 	 */
 	virtual void AssignWidget(UUserWidget* InWidget) { Widget = InWidget; }
-
+	
 	/**
 	 * @brief Called when a context is added
 	 * @param ContextTag Tag being added to the context
 	 */
-	virtual void OnContextAdded(FGameplayTag ContextTag) {}
+	void OnContextAdded(FGameplayTag ContextTag);
 
 	/**
 	 * @brief Called when a context is removed
 	 * @param ContextTag Tag being removed from the context
 	 */
-	virtual void OnContextRemoved(FGameplayTag ContextTag) {}
+	void OnContextRemoved(FGameplayTag ContextTag);
+	
+	/**
+	 * @brief Request to show given context
+	 * @param ContextTag Tag requested to be shown
+	 */
+	void ShowContext(FGameplayTag ContextTag);
+	
+	/**
+	 * @brief Request to hide given context
+	 * @param ContextTag Tag requested to be hidden
+	 */
+	void HideContext(FGameplayTag ContextTag);
 
 protected:
+	virtual bool HandleOnContextAdded(FGameplayTag ContextTag) { return false; }
+	virtual bool HandleOnContextRemoved(FGameplayTag ContextTag) { return false; }
+	virtual bool HandleShowContext(FGameplayTag ContextTag) { return false; }
+	virtual bool HandleHideContext(FGameplayTag ContextTag) { return false; }
+	
 	UPROPERTY(Transient)
 	TObjectPtr<UArcUISubsystem> UISubsystem{nullptr};
 

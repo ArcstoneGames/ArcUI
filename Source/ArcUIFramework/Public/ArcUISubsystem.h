@@ -63,6 +63,12 @@ public:
 	UFUNCTION(BlueprintCallable, Category="UI", BlueprintCosmetic)
 	void RestoreContext();
 
+	UFUNCTION(BlueprintCallable, Category="UI", BlueprintCosmetic)
+	void ShowContext(UPARAM(meta=(Categories = "ArcUI.Context")) FGameplayTag ContextTag);
+
+	UFUNCTION(BlueprintCallable, Category="UI", BlueprintCosmetic)
+	void HideContext(UPARAM(meta=(Categories = "ArcUI.Context")) FGameplayTag ContextTag);
+
 	void RegisterPresenter(UArcUIPresenter* Presenter);
 	void UnRegisterPresenter(UArcUIPresenter* Presenter);
 

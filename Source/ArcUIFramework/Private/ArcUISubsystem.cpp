@@ -118,6 +118,40 @@ void UArcUISubsystem::RestoreContext()
 	ContextTagsBackup.Reset();
 }
 
+void UArcUISubsystem::ShowContext(FGameplayTag ContextTag)
+{
+	if (!ensureMsgf(!ContextTags.HasTagExact(ContextTag), TEXT("AddContext - context already added: %s"), *ContextTag.ToString()))
+	{
+		return;
+	}
+
+	for (const auto& Presenter : Presenters)
+	{
+		if (ensureMsgf(Presenter, TEXT("ArcUISubsystem: stale registered presenter, make sure to call UnRegisterPresenter")) &&
+			Presenter->HasContextTag(ContextTag))
+		{
+			Presenter->ShowContext(ContextTag);
+		}
+	}
+}
+
+void UArcUISubsystem::HideContext(FGameplayTag ContextTag)
+{
+	if (!ensureMsgf(!ContextTags.HasTagExact(ContextTag), TEXT("AddContext - context already added: %s"), *ContextTag.ToString()))
+	{
+		return;
+	}
+
+	for (const auto& Presenter : Presenters)
+	{
+		if (ensureMsgf(Presenter, TEXT("ArcUISubsystem: stale registered presenter, make sure to call UnRegisterPresenter")) &&
+			Presenter->HasContextTag(ContextTag))
+		{
+			Presenter->HideContext(ContextTag);
+		}
+	}
+}
+
 void UArcUISubsystem::RegisterPresenter(UArcUIPresenter* Presenter)
 {
 	if (Presenters.Contains(Presenter))
