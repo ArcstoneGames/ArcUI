@@ -8,7 +8,6 @@
 #include "Widgets/CommonActivatableWidgetContainer.h"
 // UE5
 #include "GameplayTagContainer.h"
-#include "Engine/AssetManager.h"
 // generated
 #include "ArcUILayout.generated.h"
 

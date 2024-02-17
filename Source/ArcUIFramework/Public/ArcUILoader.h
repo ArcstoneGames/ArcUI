@@ -10,8 +10,6 @@
 // generated
 #include "ArcUILoader.generated.h"
 
-struct FArcUIAsset;
-
 /* 
  * The UI Loader is the unique point of access for Widget resources
  * You shouldn't need to call it manually unless you want to load assets on demand or beyond contexts

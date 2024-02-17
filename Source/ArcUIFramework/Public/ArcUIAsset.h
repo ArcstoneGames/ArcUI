@@ -38,18 +38,18 @@ struct ARCUIFRAMEWORK_API FArcUIAsset final : public FTableRowBase
 	GENERATED_BODY()
 
 	/** Tag identifying this asset */
-	UPROPERTY(EditAnywhere, meta=(Categories="ArcUI.Asset"))
+	UPROPERTY(EditAnywhere, Category=Widget, meta=(Categories="ArcUI.Asset"))
 	FGameplayTag AssetTag;
 
 	/** Class of the widget asset */
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category=Widget)
 	TSoftClassPtr<UUserWidget> WidgetClass{nullptr};
 
 	/** This asset is often used and should be loaded at init and never unloaded */
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category=Widget)
 	bool bKeepAlwaysLoaded{false};
 
-	/** Automatic creation patterns when context is requested */
-	UPROPERTY(EditAnywhere, meta=(TitleProperty="ContextTag"))
+	/** Automatic creation patterns when contexts are requested */
+	UPROPERTY(EditAnywhere, Category=Context, meta=(TitleProperty="ContextTag"))
 	TArray<FArcUIContextAction> ContextActions;
 };

@@ -82,6 +82,12 @@ protected:
 	virtual bool HandleOnContextRemoved(FGameplayTag ContextTag) { return false; }
 	virtual bool HandleShowContext(FGameplayTag ContextTag) { return false; }
 	virtual bool HandleHideContext(FGameplayTag ContextTag) { return false; }
+
+	template <typename T>
+	T* GetWidget() const
+	{
+		return Cast<T>(Widget);
+	}
 	
 	UPROPERTY(Transient)
 	TObjectPtr<UArcUISubsystem> UISubsystem{nullptr};
