@@ -29,6 +29,12 @@ public:
 	const FGameplayTagContainer& GetContextTags() const { return ContextTags; }
 
 	/**
+	 * @brief Set a single Context tag for this presenter
+	 * @param InContextTag Single context tag affecting the presenter's widgets display
+	 */
+	void SetContextTag(FGameplayTag InContextTag) { ContextTags = FGameplayTagContainer{InContextTag}; }
+	
+	/**
 	 * @brief Set the Context tags for this presenter
 	 * @param InContextTags Context Tags affecting the presenter's widgets display
 	 */

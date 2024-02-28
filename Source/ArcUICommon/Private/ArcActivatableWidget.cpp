@@ -2,6 +2,8 @@
 
 #include "ArcActivatableWidget.h"
 
+#include "ArcUICommonTypes.h"
+
 #include UE_INLINE_GENERATED_CPP_BY_NAME(ArcActivatableWidget)
 
 TOptional<FUIInputConfig> UArcActivatableWidget::GetDesiredInputConfig() const
@@ -12,3 +14,10 @@ TOptional<FUIInputConfig> UArcActivatableWidget::GetDesiredInputConfig() const
 	}
 	return Super::GetDesiredInputConfig();
 }
+
+#if WITH_EDITOR
+const FText UArcActivatableWidget::GetPaletteCategory()
+{
+	return ArcUICommon::PaletteCategory;
+}
+#endif

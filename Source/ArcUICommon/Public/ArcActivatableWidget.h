@@ -21,6 +21,10 @@ public:
 #pragma endregion
 
 protected:
+#if WITH_EDITOR
+	virtual const FText GetPaletteCategory() override;
+#endif
+	
 	UPROPERTY(EditDefaultsOnly, Category = Input, meta=(InlineEditConditionToggle))
 	bool bOverrideInputConfig{false};
 	
