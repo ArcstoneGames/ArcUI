@@ -1,4 +1,4 @@
-// Copyright Epic Games, Inc. All Rights Reserved.
+// Copyright (C) Fabien Poupineau. All Rights Reserved.
 
 #include "Modules/ModuleManager.h"
 

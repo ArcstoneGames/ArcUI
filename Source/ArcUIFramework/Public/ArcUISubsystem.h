@@ -12,7 +12,7 @@ class UCommonActivatableWidget;
 class UArcUIPresenter;
 class UArcUILayout;
 class ULocalPlayer;
-
+struct FArcUIContextData;
 
 USTRUCT()
 struct FArcUIManagedWidget
@@ -49,7 +49,7 @@ public:
 	/**
 	 * If the context is present, it will be removed
 	 * If the context is not present, it will be added
-	 * @param ContextTag Tag to checked and added or removed
+	 * @param ContextTag Tag to check and be added or removed
 	 */
 	UFUNCTION(BlueprintCallable, Category="UI", BlueprintCosmetic)
 	void ToggleContext(UPARAM(meta=(Categories = "ArcUI.Context")) FGameplayTag ContextTag);

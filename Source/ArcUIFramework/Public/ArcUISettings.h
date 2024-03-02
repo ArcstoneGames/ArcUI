@@ -22,4 +22,6 @@ public:
 	/** Registry name */
 	UPROPERTY(Config, EditAnywhere, BlueprintReadOnly, Category= "Assets")
 	FName RegistryName{TEXT("ArcUI_AssetsRegistry")};
+
+	virtual FName GetCategoryName() const override { return FName{TEXT("Arcstone")}; }
 };
