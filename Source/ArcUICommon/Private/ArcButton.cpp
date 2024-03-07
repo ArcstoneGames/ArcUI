@@ -9,6 +9,38 @@
 
 #include UE_INLINE_GENERATED_CPP_BY_NAME(ArcButton)
 
+void UArcButton::NativeConstruct()
+{
+	Super::NativeConstruct();
+
+	if (TXT_Label)
+	{
+		TXT_Label->SetText(LabelText);
+	}
+
+	OnClickedEventHandle = OnClicked().AddLambda([this]() { OnArcClicked.Broadcast(this, Payload); });
+}
+
+void UArcButton::NativeDestruct()
+{
+	if (OnClickedEventHandle.IsValid())
+	{
+		OnClicked().Remove(OnClickedEventHandle);
+		OnClickedEventHandle.Reset();
+	}
+
+	Super::NativeDestruct();
+}
+
+void UArcButton::NativeOnCurrentTextStyleChanged()
+{
+	Super::NativeOnCurrentTextStyleChanged();
+
+	if (TXT_Label)
+	{
+		TXT_Label->SetStyle(GetCurrentTextStyleClass());
+	}
+}
 
 #if WITH_EDITOR
 const FText UArcButton::GetPaletteCategory()
@@ -26,10 +58,3 @@ void UArcButton::PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEv
 	}
 }
 #endif
-
-void UArcButton::NativeOnCurrentTextStyleChanged()
-{
-	Super::NativeOnCurrentTextStyleChanged();
-
-	TXT_Label->SetStyle(GetCurrentTextStyleClass());
-}
