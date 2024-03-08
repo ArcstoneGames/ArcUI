@@ -50,11 +50,17 @@ const FText UArcButton::GetPaletteCategory()
 
 void UArcButton::PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent)
 {
-	Super::PostEditChangeProperty(PropertyChangedEvent);
+	const FName PropertyName = PropertyChangedEvent.GetPropertyName();
 
-	if (TXT_Label)
+	static FName LabelTextPropertyName(GET_MEMBER_NAME_CHECKED(UArcButton, LabelText));
+	if (PropertyName == LabelTextPropertyName)
 	{
-		TXT_Label->SetText(LabelText);
+		if (TXT_Label)
+		{
+			TXT_Label->SetText(LabelText);
+		}
 	}
+
+	Super::PostEditChangeProperty(PropertyChangedEvent);
 }
 #endif

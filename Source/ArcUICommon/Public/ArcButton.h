@@ -11,7 +11,6 @@
 
 class UCommonTextBlock;
 
-
 /**
  * Base struct for button payloads
  */
@@ -57,10 +56,10 @@ public:
 	FArcButtonDelegate OnArcClicked;
 
 protected:
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (ExposeOnSpawn = true))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (ExposeOnSpawn = true))
 	TInstancedStruct<FArcButtonPayload> Payload;
 
-	UPROPERTY(EditInstanceOnly, BlueprintReadOnly, meta = (ExposeOnSpawn = true))
+	UPROPERTY(EditInstanceOnly, BlueprintReadWrite, meta = (ExposeOnSpawn = true))
 	FText LabelText;
 
 	UPROPERTY(meta = (BindWidgetOptional))
