@@ -4,5 +4,5 @@
 
 namespace ArcUI
 {
-	const FText PaletteCategory = NSLOCTEXT("ArcUI", "WidgetPaletteCategory", "ArcUI Plugin");
+	static const FText PaletteCategory = NSLOCTEXT("Arcstone", "WidgetPaletteCategory", "Arcstone Games");
 }
