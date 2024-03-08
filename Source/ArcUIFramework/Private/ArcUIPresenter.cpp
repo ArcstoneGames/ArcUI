@@ -32,3 +32,12 @@ void UArcUIPresenter::HideContext(FGameplayTag ContextTag)
 	const bool bHandled = HandleHideContext(ContextTag);
 	UE_CLOG(!bHandled, LogArcUI, Warning, TEXT("HideContext on Tag %s not handled by %s"), *ContextTag.ToString(), *GetNameSafe(this));
 }
+
+UGameInstance* UArcUIPresenter::GetGameInstance() const
+{
+	if (const UWorld* World = GetWorld())
+	{
+		return World->GetGameInstance();
+	}
+	return nullptr;
+}

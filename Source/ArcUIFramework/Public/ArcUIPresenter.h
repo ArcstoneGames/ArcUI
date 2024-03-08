@@ -83,6 +83,9 @@ public:
 	 */
 	void HideContext(FGameplayTag ContextTag);
 
+	UFUNCTION(BlueprintCallable, BlueprintCosmetic)
+	UGameInstance* GetGameInstance() const;
+
 protected:
 	virtual bool HandleOnContextAdded(FGameplayTag ContextTag) { return false; }
 	virtual bool HandleOnContextRemoved(FGameplayTag ContextTag) { return false; }
