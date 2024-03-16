@@ -28,13 +28,28 @@ bool UArcUISubsystem::ShouldCreateSubsystem(UObject* Outer) const
 
 void UArcUISubsystem::AddContext(FGameplayTag ContextTag)
 {
+	AddContextWithPayload(ContextTag, {});
+}
+
+void UArcUISubsystem::AddContextWithPayload(FGameplayTag ContextTag, const TInstancedStruct<FArcUIContextPayload>& Payload)
+{
 	if (!ensureMsgf(!ContextTags.HasTagExact(ContextTag), TEXT("AddContext - context already added: %s"), *ContextTag.ToString()))
 	{
 		return;
 	}
 
 	ContextTags.AddTag(ContextTag);
-	UE_LOG(LogArcUI, Verbose, TEXT("AddContext: %s"), *ContextTag.ToString());
+
+	if (Payload.IsValid())
+	{
+		ensureMsgf(nullptr == Payloads.Find(ContextTag), TEXT("AddContext - A payload was already set for this context: %s"), *ContextTag.ToString());
+		Payloads.Add(ContextTag, Payload);
+		UE_LOG(LogArcUI, Verbose, TEXT("AddContext: %s with Payload %s"), *ContextTag.ToString(), *Payload.GetScriptStruct()->GetFullName());
+	}
+	else
+	{
+		UE_LOG(LogArcUI, Verbose, TEXT("AddContext: %s"), *ContextTag.ToString());
+	}
 	
 	GetGameInstance()->GetSubsystem<UArcUILoader>()->OnContextAdded(ContextTag);
 
@@ -43,12 +58,17 @@ void UArcUISubsystem::AddContext(FGameplayTag ContextTag)
 		if (ensureMsgf(Presenter, TEXT("ArcUISubsystem: stale registered presenter, make sure to call UnRegisterPresenter")) &&
 			Presenter->HasContextTag(ContextTag))
 		{
-			Presenter->OnContextAdded(ContextTag);
+			Presenter->OnContextAdded(ContextTag, Payload);
 		}
 	}
 }
 
 void UArcUISubsystem::AddExclusiveContext(FGameplayTag ContextTag)
+{
+	AddExclusiveContextWithPayload(ContextTag, {});
+}
+
+void UArcUISubsystem::AddExclusiveContextWithPayload(FGameplayTag ContextTag, const TInstancedStruct<FArcUIContextPayload>& Payload)
 {
 	while (!ContextTags.IsEmpty())
 	{
@@ -57,7 +77,7 @@ void UArcUISubsystem::AddExclusiveContext(FGameplayTag ContextTag)
 
 	ContextTags.Reset();
 
-	AddContext(ContextTag);
+	AddContextWithPayload(ContextTag, Payload);
 }
 
 void UArcUISubsystem::RemoveContext(FGameplayTag ContextTag)
@@ -68,7 +88,10 @@ void UArcUISubsystem::RemoveContext(FGameplayTag ContextTag)
 	}
 
 	ContextTags.RemoveTag(ContextTag);
-	UE_LOG(LogArcUI, Verbose, TEXT("RemoveContext: %s"), *ContextTag.ToString());
+
+	const int32 RemovedCount = Payloads.Remove(ContextTag);
+	UE_CLOG(RemovedCount == 0, LogArcUI, Verbose, TEXT("RemoveContext: %s"), *ContextTag.ToString());
+	UE_CLOG(RemovedCount >= 0, LogArcUI, Verbose, TEXT("RemoveContext: %s with associated payload"), *ContextTag.ToString());
 	
 	for (const auto& Presenter : Presenters)
 	{
@@ -84,19 +107,39 @@ void UArcUISubsystem::RemoveContext(FGameplayTag ContextTag)
 
 void UArcUISubsystem::ToggleContext(FGameplayTag ContextTag)
 {
+	ToggleContextWithPayload(ContextTag, {});
+}
+
+void UArcUISubsystem::ToggleContextWithPayload(FGameplayTag ContextTag,	const TInstancedStruct<FArcUIContextPayload>& Payload)
+{
 	if (HasContext(ContextTag))
 	{
 		RemoveContext(ContextTag);
 	}
 	else
 	{
-		AddContext(ContextTag);
+		AddContextWithPayload(ContextTag, Payload);
 	}
 }
 
 bool UArcUISubsystem::HasContext(FGameplayTag ContextTag) const
 {
 	return ContextTags.HasTagExact(ContextTag);
+}
+
+bool UArcUISubsystem::HasPayload(FGameplayTag ContextTag) const
+{
+	return nullptr != Payloads.Find(ContextTag);
+}
+
+TInstancedStruct<FArcUIContextPayload> UArcUISubsystem::GetPayload(FGameplayTag ContextTag) const
+{
+	if (const auto* Payload = Payloads.Find(ContextTag))
+	{
+		return *Payload;
+	}
+	
+	return {};
 }
 
 void UArcUISubsystem::BackupContext()
@@ -112,7 +155,14 @@ void UArcUISubsystem::RestoreContext()
 
 	for (const auto& ContextTag : ContextTagsBackup)
 	{
-		AddContext(ContextTag);
+		if (const auto* Payload = Payloads.Find(ContextTag))
+		{
+			AddContextWithPayload(ContextTag, *Payload);
+		}
+		else
+		{
+			AddContext(ContextTag);	
+		}
 	}
 
 	ContextTagsBackup.Reset();
@@ -169,7 +219,14 @@ void UArcUISubsystem::RegisterPresenter(UArcUIPresenter* Presenter)
 	{
 		if (Presenter->HasContextTag(ContextTag))
 		{
-			Presenter->OnContextAdded(ContextTag);
+			if (const auto* Payload = Payloads.Find(ContextTag))
+			{
+				Presenter->OnContextAdded(ContextTag, *Payload);
+			}
+			else
+			{
+				Presenter->OnContextAdded(ContextTag, {});
+			}
 		}
 	}
 }

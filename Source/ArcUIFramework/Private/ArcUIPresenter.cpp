@@ -3,15 +3,16 @@
 #include "ArcUIPresenter.h"
 
 #include "ArcUILog.h"
+#include "ArcUISubsystem.h"
 
 bool UArcUIPresenter::HasContextTag(FGameplayTag ContextTag) const
 {
 	return ContextTags.HasTag(ContextTag);
 }
 
-void UArcUIPresenter::OnContextAdded(FGameplayTag ContextTag)
+void UArcUIPresenter::OnContextAdded(FGameplayTag ContextTag, const TInstancedStruct<FArcUIContextPayload>& Payload)
 {
-	const bool bHandled = HandleOnContextAdded(ContextTag);
+	const bool bHandled = HandleOnContextAdded(ContextTag, Payload);
 	UE_CLOG(!bHandled, LogArcUI, Warning, TEXT("OnContextAdded on Tag %s not handled by %s"), *ContextTag.ToString(), *GetNameSafe(this));
 }
 
@@ -35,6 +36,10 @@ void UArcUIPresenter::HideContext(FGameplayTag ContextTag)
 
 UGameInstance* UArcUIPresenter::GetGameInstance() const
 {
+	if (UISubsystem)
+	{
+		return UISubsystem->GetGameInstance();
+	}
 	if (const UWorld* World = GetWorld())
 	{
 		return World->GetGameInstance();

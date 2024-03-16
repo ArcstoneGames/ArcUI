@@ -2,8 +2,11 @@
 
 #pragma once
 
+// ArcUIFramework
+#include "ArcUIContext.h"
 // UE5
 #include "GameplayTagContainer.h"
+#include "InstancedStruct.h"
 #include "Subsystems/GameInstanceSubsystem.h"
 // generated
 #include "ArcUISubsystem.generated.h"
@@ -41,7 +44,17 @@ public:
 	void AddContext(UPARAM(meta=(Categories = "ArcUI.Context")) FGameplayTag ContextTag);
 
 	UFUNCTION(BlueprintCallable, Category="UI", BlueprintCosmetic)
+	void AddContextWithPayload(
+		UPARAM(meta=(Categories = "ArcUI.Context")) FGameplayTag ContextTag,
+		const TInstancedStruct<FArcUIContextPayload>& Payload);
+
+	UFUNCTION(BlueprintCallable, Category="UI", BlueprintCosmetic)
 	void AddExclusiveContext(UPARAM(meta=(Categories = "ArcUI.Context")) FGameplayTag ContextTag);
+
+	UFUNCTION(BlueprintCallable, Category="UI", BlueprintCosmetic)
+	void AddExclusiveContextWithPayload(
+		UPARAM(meta=(Categories = "ArcUI.Context")) FGameplayTag ContextTag,
+		const TInstancedStruct<FArcUIContextPayload>& Payload);
 	
 	UFUNCTION(BlueprintCallable, Category="UI", BlueprintCosmetic)
 	void RemoveContext(UPARAM(meta=(Categories = "ArcUI.Context")) FGameplayTag ContextTag);
@@ -53,9 +66,26 @@ public:
 	 */
 	UFUNCTION(BlueprintCallable, Category="UI", BlueprintCosmetic)
 	void ToggleContext(UPARAM(meta=(Categories = "ArcUI.Context")) FGameplayTag ContextTag);
+
+	/**
+	 * If the context is present, it will be removed
+	 * If the context is not present, it will be added
+	 * @param ContextTag Tag to check and be added or removed
+	 * @param Payload Optional payload data
+	 */
+	UFUNCTION(BlueprintCallable, Category="UI", BlueprintCosmetic)
+	void ToggleContextWithPayload(
+		UPARAM(meta=(Categories = "ArcUI.Context")) FGameplayTag ContextTag,
+		const TInstancedStruct<FArcUIContextPayload>& Payload);
 	
 	UFUNCTION(BlueprintCallable, Category="UI", BlueprintCosmetic)
 	bool HasContext(UPARAM(meta=(Categories = "ArcUI.Context")) FGameplayTag ContextTag) const;
+
+	UFUNCTION(BlueprintCallable, Category="UI", BlueprintCosmetic)
+	bool HasPayload(UPARAM(meta=(Categories = "ArcUI.Context")) FGameplayTag ContextTag) const;
+
+	UFUNCTION(BlueprintCallable, Category="UI", BlueprintCosmetic)
+	TInstancedStruct<FArcUIContextPayload> GetPayload(UPARAM(meta=(Categories = "ArcUI.Context")) FGameplayTag ContextTag) const;
 
 	UFUNCTION(BlueprintCallable, Category="UI", BlueprintCosmetic)
 	void BackupContext();
@@ -104,4 +134,7 @@ protected:
 
 	UPROPERTY(Transient)
 	TArray<FArcUIManagedWidget> ManagedWidgets;
+
+	UPROPERTY(Transient)
+	TMap<FGameplayTag, TInstancedStruct<FArcUIContextPayload>> Payloads;
 };

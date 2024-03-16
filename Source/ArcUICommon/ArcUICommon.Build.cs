@@ -15,7 +15,8 @@ public class ArcUICommon : ModuleRules
                 "Core", 
                 "UMG",
                 "CommonUI",
-                "CommonInput",
+                "CommonInput", 
+                "StructUtils",
             }
         );
 

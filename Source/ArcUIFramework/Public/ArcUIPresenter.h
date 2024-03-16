@@ -4,9 +4,11 @@
 
 // UE5
 #include "GameplayTagContainer.h"
+#include "InstancedStruct.h"
 // generated
 #include "ArcUIPresenter.generated.h"
 
+struct FArcUIContextPayload;
 class UArcUISubsystem;
 class UUserWidget;
 class AActor;
@@ -63,7 +65,7 @@ public:
 	 * @brief Called when a context is added
 	 * @param ContextTag Tag being added to the context
 	 */
-	void OnContextAdded(FGameplayTag ContextTag);
+	void OnContextAdded(FGameplayTag ContextTag, const TInstancedStruct<FArcUIContextPayload>& Payload);
 
 	/**
 	 * @brief Called when a context is removed
@@ -87,7 +89,7 @@ public:
 	UGameInstance* GetGameInstance() const;
 
 protected:
-	virtual bool HandleOnContextAdded(FGameplayTag ContextTag) { return false; }
+	virtual bool HandleOnContextAdded(FGameplayTag ContextTag, const TInstancedStruct<FArcUIContextPayload>& Payload) { return false; }
 	virtual bool HandleOnContextRemoved(FGameplayTag ContextTag) { return false; }
 	virtual bool HandleShowContext(FGameplayTag ContextTag) { return false; }
 	virtual bool HandleHideContext(FGameplayTag ContextTag) { return false; }

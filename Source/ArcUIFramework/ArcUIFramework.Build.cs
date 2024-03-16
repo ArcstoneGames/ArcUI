@@ -18,7 +18,8 @@ public class ArcUIFramework : ModuleRules
 				"UMG",
 				"CommonUI",
 				"CommonInput",
-				"DeveloperSettings"
+				"DeveloperSettings",
+				"StructUtils"
 			}
 		);
 	}
