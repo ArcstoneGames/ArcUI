@@ -10,6 +10,18 @@
 // generated
 #include "ArcUILoader.generated.h"
 
+struct FArcUIPresenterInfo;
+class UArcUIPresenter;
+
+USTRUCT()
+struct FArcUIManagedPresenters
+{
+	GENERATED_BODY()
+
+	UPROPERTY(Transient)
+	TArray<TObjectPtr<UArcUIPresenter>> Presenters;
+};
+
 /* 
  * The UI Loader is the unique point of access for Widget resources
  * You shouldn't need to call it manually unless you want to load assets on demand or beyond contexts
@@ -34,18 +46,32 @@ public:
 protected:
 	[[nodiscard]]
 	UClass* GetAssetClass_Internal(FGameplayTag AssetTag, FGameplayTag ContextTag);
-	
-	// Override this method to manage loaded subclasses
-	virtual TSubclassOf<UUserWidget> LoadSubclass(FGameplayTag AssetTag, const TSoftClassPtr<UUserWidget>& AssetPointer);
 
-	// Override this if you manage loaded subclasses
-	virtual TSubclassOf<UUserWidget> GetLoadedSubclass(FGameplayTag AssetTag);
+	void CreatePresenter(FGameplayTag ContextTag, const FArcUIPresenterInfo& PresenterInfo);
+
+	// Override this method to manage loaded presenters subclasses
+	virtual TSubclassOf<UArcUIPresenter> LoadPresenterSubclass(FGameplayTag AssetTag, const TSoftClassPtr<UArcUIPresenter>& AssetPointer);
+
+	// Override this if you manage loaded widgets subclasses
+	virtual TSubclassOf<UArcUIPresenter> GetLoadedPresenterSubclass(FGameplayTag AssetTag);
+	
+	// Override this method to manage loaded widgets subclasses
+	virtual TSubclassOf<UUserWidget> LoadWidgetSubclass(FGameplayTag AssetTag, const TSoftClassPtr<UUserWidget>& AssetPointer);
+
+	// Override this if you manage loaded widgets subclasses
+	virtual TSubclassOf<UUserWidget> GetLoadedWidgetSubclass(FGameplayTag AssetTag);
 
 	UPROPERTY(Transient)
 	TSubclassOf<UArcUILayout> LayoutClass{nullptr};
 
 	UPROPERTY(Transient)
-	TMap<FGameplayTag, TSubclassOf<UUserWidget>> ManagedClasses;
+	TMap<FGameplayTag, TSubclassOf<UUserWidget>> ManagedWidgetClasses;
+
+	UPROPERTY(Transient)
+	TMap<FGameplayTag, TSubclassOf<UArcUIPresenter>> ManagedPresenterClasses;
+
+	UPROPERTY(Transient)
+	TMap<FGameplayTag, FArcUIManagedPresenters> ManagedPresenters;
 };
 
 

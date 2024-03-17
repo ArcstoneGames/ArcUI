@@ -4,6 +4,7 @@
 
 // UE5
 #include "GameplayTagContainer.h"
+#include "Engine/DataTable.h"
 // generated
 #include "ArcUIAsset.generated.h"
 

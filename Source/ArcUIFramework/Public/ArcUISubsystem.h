@@ -99,7 +99,10 @@ public:
 	UFUNCTION(BlueprintCallable, Category="UI", BlueprintCosmetic)
 	void HideContext(UPARAM(meta=(Categories = "ArcUI.Context")) FGameplayTag ContextTag);
 
+	UFUNCTION(BlueprintCallable, Category="UI", BlueprintCosmetic)
 	void RegisterPresenter(UArcUIPresenter* Presenter);
+
+	UFUNCTION(BlueprintCallable, Category="UI", BlueprintCosmetic)
 	void UnRegisterPresenter(UArcUIPresenter* Presenter);
 
 	virtual void OnPlayerAdded(ULocalPlayer* LocalPlayer);
@@ -116,8 +119,11 @@ public:
 	[[nodiscard]]
 	UUserWidget* GetActiveWidgetOnLayer(FGameplayTag LayerTag) const;
 
-	[[nodiscard]]
-	UUserWidget* GetCreatedWidget(FGameplayTag InAssetTag, FGameplayTag InContextTag, FGameplayTag InLayerTag) const;
+	UFUNCTION(BlueprintPure, Category="UI", BlueprintCosmetic)
+	UUserWidget* GetCreatedWidget(
+		UPARAM(meta=(Categories = "ArcUI.Asset")) FGameplayTag InAssetTag,
+		UPARAM(meta=(Categories = "ArcUI.Context")) FGameplayTag InContextTag,
+		UPARAM(meta=(Categories = "ArcUI.Layer")) FGameplayTag InLayerTag) const;
 
 protected:
 	void CreateLayout(const ULocalPlayer* LocalPlayer, APlayerController* PlayerController);

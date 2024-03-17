@@ -2,13 +2,15 @@
 
 #pragma once
 
+// ArcUI
+#include "ArcUIContext.h"
 // UE5
 #include "GameplayTagContainer.h"
 #include "InstancedStruct.h"
+#include "Engine/DataTable.h"
 // generated
 #include "ArcUIPresenter.generated.h"
 
-struct FArcUIContextPayload;
 class UArcUISubsystem;
 class UUserWidget;
 class AActor;
@@ -16,14 +18,12 @@ class AActor;
 /**
  * Base class for (standalone) Presenters
  */
-UCLASS(Abstract)
+UCLASS(Abstract, Blueprintable, DisplayName="UI Presenter", meta = (ShowWorldContextPin))
 class ARCUIFRAMEWORK_API UArcUIPresenter : public UObject
 {
 	GENERATED_BODY()
 
 public:
-	void SetUISubsystem(UArcUISubsystem* InUISubsystem) { UISubsystem = InUISubsystem; }
-
 	/**
 	 * @brief Retrieve the Context tags for this presenter
 	 * @return The context tags affecting the presenter's widgets display
@@ -85,8 +85,10 @@ public:
 	 */
 	void HideContext(FGameplayTag ContextTag);
 
-	UFUNCTION(BlueprintCallable, BlueprintCosmetic)
+	void SetUISubsystem(UArcUISubsystem* InUISubsystem) { UISubsystem = InUISubsystem; }
+
 	UGameInstance* GetGameInstance() const;
+	virtual UWorld* GetWorld() const override;
 
 protected:
 	virtual bool HandleOnContextAdded(FGameplayTag ContextTag, const TInstancedStruct<FArcUIContextPayload>& Payload) { return false; }
@@ -94,12 +96,27 @@ protected:
 	virtual bool HandleShowContext(FGameplayTag ContextTag) { return false; }
 	virtual bool HandleHideContext(FGameplayTag ContextTag) { return false; }
 
+	UFUNCTION(BlueprintImplementableEvent, DisplayName="OnContextAdded")
+	void BP_HandleOnContextAdded(FGameplayTag ContextTag, const TInstancedStruct<FArcUIContextPayload>& Payload);
+
+	UFUNCTION(BlueprintImplementableEvent, DisplayName="OnContextRemoved")
+	void BP_HandleOnContextRemoved(FGameplayTag ContextTag);
+
+	UFUNCTION(BlueprintImplementableEvent, DisplayName="OnContextShown")
+	void BP_HandleShowContext(FGameplayTag ContextTag);
+
+	UFUNCTION(BlueprintImplementableEvent, DisplayName="OnContextHidden")
+	void BP_HandleHideContext(FGameplayTag ContextTag);
+
 	template <typename T>
 	T* GetWidget() const
 	{
 		return Cast<T>(Widget);
 	}
 	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, meta=(Categories="ArcUI.Context"))
+	FGameplayTagContainer ContextTags;
+
 	UPROPERTY(Transient)
 	TObjectPtr<UArcUISubsystem> UISubsystem{nullptr};
 
@@ -108,6 +125,26 @@ protected:
 
 	UPROPERTY(Transient)
 	TObjectPtr<AActor> ObservedActor{nullptr};
+};
 
-	FGameplayTagContainer ContextTags;
+
+USTRUCT(BlueprintType)
+struct ARCUIFRAMEWORK_API FArcUIPresenterInfo final : public FTableRowBase
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditAnywhere, meta=(BlueprintBaseOnly, AllowAbstract=false))
+	TSoftClassPtr<UArcUIPresenter> Presenter{nullptr};
+
+	/** Should this presenter always be loaded */
+	UPROPERTY(EditAnywhere)
+	bool bKeepAlwaysLoaded{false};
+
+	/** Should this presenter be loaded when a context is added */
+	UPROPERTY(EditAnywhere, meta=(EditCondition="!bKeepAlwaysLoaded"))
+	bool bLoadingTiedToContext{false};
+
+	/** Which contexts can trigger the loading of the Presenter */
+	UPROPERTY(EditAnywhere, meta=(Categories="ArcUI.Context", EditCondition="!bKeepAlwaysLoaded && bLoadingTiedToContext"))
+	FGameplayTag ContextTag;
 };
