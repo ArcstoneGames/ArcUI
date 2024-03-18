@@ -39,6 +39,7 @@ class ARCUIFRAMEWORK_API UArcUISubsystem : public UGameInstanceSubsystem
 public:
 	// ~ USubsystem
 	virtual bool ShouldCreateSubsystem(UObject* Outer) const override;
+	virtual void Initialize(FSubsystemCollectionBase& Collection) override;
 
 	UFUNCTION(BlueprintCallable, Category="UI", BlueprintCosmetic)
 	void AddContext(UPARAM(meta=(Categories = "ArcUI.Context")) FGameplayTag ContextTag);
@@ -143,4 +144,7 @@ protected:
 
 	UPROPERTY(Transient)
 	TMap<FGameplayTag, TInstancedStruct<FArcUIContextPayload>> Payloads;
+
+	UPROPERTY(Transient)
+	TObjectPtr<ULocalPlayer> FirstLocalPlayer{nullptr};
 };

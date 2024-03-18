@@ -26,6 +26,14 @@ bool UArcUISubsystem::ShouldCreateSubsystem(UObject* Outer) const
 	return false;
 }
 
+void UArcUISubsystem::Initialize(FSubsystemCollectionBase& Collection)
+{
+	Super::Initialize(Collection);
+
+	GetGameInstance()->OnLocalPlayerAddedEvent.AddUObject(this, &ThisClass::OnPlayerAdded);
+	GetGameInstance()->OnLocalPlayerRemovedEvent.AddUObject(this, &ThisClass::OnPlayerRemoved);
+}
+
 void UArcUISubsystem::AddContext(FGameplayTag ContextTag)
 {
 	AddContextWithPayload(ContextTag, {});
@@ -240,20 +248,29 @@ void UArcUISubsystem::UnRegisterPresenter(UArcUIPresenter* Presenter)
 
 void UArcUISubsystem::OnPlayerAdded(ULocalPlayer* LocalPlayer)
 {
-	if (!Layout)
+	if (!Layout && nullptr == FirstLocalPlayer)
 	{
+		FirstLocalPlayer = LocalPlayer;
 		if (auto* PlayerController = LocalPlayer->GetPlayerController(GetWorld()))
 		{
 			CreateLayout(LocalPlayer, PlayerController);
+		}
+		else
+		{
+			LocalPlayer->OnPlayerControllerChanged().AddLambda([this](APlayerController* PlayerController)
+			{
+				CreateLayout(FirstLocalPlayer, PlayerController);
+			});
 		}
 	}
 }
 
 void UArcUISubsystem::OnPlayerRemoved(ULocalPlayer* LocalPlayer)
 {
-	if (Layout && Layout->GetPlayerContext().GetLocalPlayer() == LocalPlayer)
+	if (Layout && Layout->GetPlayerContext().GetLocalPlayer() == LocalPlayer && FirstLocalPlayer == LocalPlayer)
 	{
 		DestroyLayout();
+		FirstLocalPlayer = nullptr;
 	}
 }
 
