@@ -116,6 +116,8 @@ public:
 		UPARAM(meta=(Categories = "ArcUI.Layer")) FGameplayTag InLayerTag);
 
 	void DestroyWidget(FGameplayTag InAssetTag, FGameplayTag InContextTag, FGameplayTag InLayerTag);
+
+	const UArcUILayout* GetLayout() const { return Layout; }
 	
 	[[nodiscard]]
 	UUserWidget* GetActiveWidgetOnLayer(FGameplayTag LayerTag) const;

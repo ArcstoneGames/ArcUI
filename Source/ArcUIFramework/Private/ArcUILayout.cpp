@@ -38,6 +38,13 @@ UCommonActivatableWidgetContainerBase* UArcUILayout::GetLayer(FGameplayTag Layer
 	return Layers.FindRef(LayerTag);
 }
 
+TArray<FGameplayTag> UArcUILayout::GetLayerTags() const
+{
+	TArray<FGameplayTag> Keys;
+	Layers.GetKeys(Keys);
+	return Keys;
+}
+
 UCommonActivatableWidget* UArcUILayout::GetActiveWidgetOnLayer(FGameplayTag LayerTag) const
 {
 	if (const auto* Layer = GetLayer(LayerTag))

@@ -37,6 +37,10 @@ public:
 	UCommonActivatableWidgetContainerBase* GetLayer(FGameplayTag LayerTag) const;
 
 	[[nodiscard]]
+	// Get the registered layer tags
+	TArray<FGameplayTag> GetLayerTags() const;
+
+	[[nodiscard]]
 	// Get the pushed widget for the given layer tag.
 	UCommonActivatableWidget* GetActiveWidgetOnLayer(FGameplayTag LayerTag) const; 
 
