@@ -15,7 +15,7 @@ struct FArcUITester_Widget;
 
 
 UCLASS(BlueprintType, DefaultToInstanced)
-class UArcUITester_Widget : public UObject
+class ARCUIFRAMEWORK_API UArcUITester_Widget : public UObject
 {
 	GENERATED_BODY()
 
@@ -23,7 +23,7 @@ public:
 	UPROPERTY(VisibleAnywhere, meta=(NoResetToDefault))
     FString Name;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Model", meta=(EditCondition="bImplementsInterface", EditConditionHides))
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Model")
 	TInstancedStruct<FArcUIModel> Model;
 	
 	UFUNCTION(CallInEditor, Category="Model")
@@ -77,27 +77,23 @@ class ARCUIFRAMEWORK_API AArcUITester : public AInfo
 
 public:
 	AArcUITester();
-
-protected:
+	
 	virtual void BeginPlay() override;
 
+#if WITH_EDITORONLY_DATA
 	UPROPERTY(EditAnywhere, Category="Context", meta=(Categories="ArcUI.Context"))
-	FGameplayTag ExclusiveContext;
+	FGameplayTag Context;
 
 	UPROPERTY(EditAnywhere, Category="Context")
 	TInstancedStruct<FArcUIContextPayload> ContextPayload;
 
-	UFUNCTION(CallInEditor, Category="Context")
+	void AddContext();
 	void AddExclusiveContext();
-	
-	UFUNCTION(CallInEditor, Category="Widgets")
-	void DumpWidgets() const;
+	void RemoveContext();
 
 	UPROPERTY(VisibleAnywhere, meta=(NoResetToDefault))
 	FArcUITester_Layout Layout;
-	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	TInstancedStruct<FArcUIModel> Model;
+#endif;
 
 private:
 	void RebuildLayout();

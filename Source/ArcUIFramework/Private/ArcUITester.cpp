@@ -42,16 +42,16 @@ void AArcUITester::BeginPlay()
 	RebuildLayout();
 }
 
-void AArcUITester::AddExclusiveContext()
+void AArcUITester::AddContext()
 {
 #if WITH_EDITOR
 	if (GetWorld()->WorldType == EWorldType::PIE)
 	{
 		if (auto* UISubsystem = GetGameInstance()->GetSubsystem<UArcUISubsystem>())
 		{
-			if (ExclusiveContext.IsValid())
+			if (Context.IsValid())
 			{
-				UISubsystem->AddExclusiveContextWithPayload(ExclusiveContext, ContextPayload);
+				UISubsystem->AddContextWithPayload(Context, ContextPayload);
 
 				RebuildLayout();
 			}
@@ -60,9 +60,40 @@ void AArcUITester::AddExclusiveContext()
 #endif
 }
 
-void AArcUITester::DumpWidgets() const
+void AArcUITester::AddExclusiveContext()
 {
-	
+#if WITH_EDITOR
+	if (GetWorld()->WorldType == EWorldType::PIE)
+	{
+		if (auto* UISubsystem = GetGameInstance()->GetSubsystem<UArcUISubsystem>())
+		{
+			if (Context.IsValid())
+			{
+				UISubsystem->AddExclusiveContextWithPayload(Context, ContextPayload);
+
+				RebuildLayout();
+			}
+		}
+	}
+#endif
+}
+
+void AArcUITester::RemoveContext()
+{
+#if WITH_EDITOR
+	if (GetWorld()->WorldType == EWorldType::PIE)
+	{
+		if (auto* UISubsystem = GetGameInstance()->GetSubsystem<UArcUISubsystem>())
+		{
+			if (Context.IsValid())
+			{
+				UISubsystem->RemoveContext(Context);
+
+				RebuildLayout();
+			}
+		}
+	}
+#endif
 }
 
 void AArcUITester::RebuildLayout()

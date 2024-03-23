@@ -23,6 +23,11 @@
 			"Name": "ArcUICommon",
 			"Type": "Runtime",
 			"LoadingPhase": "Default"
+		},
+		{
+			"Name": "ArcUIFrameworkEditor",
+			"Type": "EditorNoCommandlet",
+			"LoadingPhase": "Default"
 		}
 	],
 	"Plugins": [
