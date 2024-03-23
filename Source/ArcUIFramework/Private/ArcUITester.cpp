@@ -11,24 +11,16 @@
 
 void UArcUITester_Widget::UpdateWithModel() const
 {
-	if (bImplementsInterface && Model.IsValid())
+	if (bImplementsInterface && Model.Model.IsValid())
 	{
 		if (auto* ModelReceiver = Cast<IArcUIModelReceiver>(Widget))
 		{
-			ModelReceiver->UpdateWithModel(Model);
+			ModelReceiver->UpdateWithModel(Model.Model);
 		}
 	}
 }
 
-void UArcUITester_Widget::PostEditChangeChainProperty(FPropertyChangedChainEvent& PropertyChangedEvent)
-{
-	Super::PostEditChangeChainProperty(PropertyChangedEvent);
-
-	if (PropertyChangedEvent.PropertyChain.GetActiveMemberNode()->GetPrevNode()->GetValue()->GetFName() == GET_MEMBER_NAME_CHECKED(UArcUITester_Widget, Model))
-	{
-		UpdateWithModel();
-	}
-}
+#if WITH_EDITORONLY_DATA
 
 AArcUITester::AArcUITester()
 {
@@ -44,7 +36,6 @@ void AArcUITester::BeginPlay()
 
 void AArcUITester::AddContext()
 {
-#if WITH_EDITOR
 	if (GetWorld()->WorldType == EWorldType::PIE)
 	{
 		if (auto* UISubsystem = GetGameInstance()->GetSubsystem<UArcUISubsystem>())
@@ -57,12 +48,10 @@ void AArcUITester::AddContext()
 			}
 		}
 	}
-#endif
 }
 
 void AArcUITester::AddExclusiveContext()
 {
-#if WITH_EDITOR
 	if (GetWorld()->WorldType == EWorldType::PIE)
 	{
 		if (auto* UISubsystem = GetGameInstance()->GetSubsystem<UArcUISubsystem>())
@@ -75,12 +64,10 @@ void AArcUITester::AddExclusiveContext()
 			}
 		}
 	}
-#endif
 }
 
 void AArcUITester::RemoveContext()
 {
-#if WITH_EDITOR
 	if (GetWorld()->WorldType == EWorldType::PIE)
 	{
 		if (auto* UISubsystem = GetGameInstance()->GetSubsystem<UArcUISubsystem>())
@@ -93,12 +80,11 @@ void AArcUITester::RemoveContext()
 			}
 		}
 	}
-#endif
 }
 
 void AArcUITester::RebuildLayout()
 {
-	Layout.Layers.Empty();
+	UILayers.Empty();
 	
 	if (const auto* UISubsystem = GetGameInstance()->GetSubsystem<UArcUISubsystem>())
 	{
@@ -117,6 +103,7 @@ void AArcUITester::RebuildLayout()
 							TesterWidget->Widget = InWidget;
 							TesterWidget->Name = InWidget->GetName();
 							TesterWidget->bImplementsInterface = InWidget->Implements<UArcUIModelReceiver>();
+							TesterWidget->Model.OnModelPushRequest.BindUObject(TesterWidget, &UArcUITester_Widget::UpdateWithModel);
 							InWidget->WidgetTree->ForEachWidget([&](UWidget* Widget)
 							{
 								if (const auto* UserWidget = Cast<UUserWidget>(Widget))
@@ -128,11 +115,12 @@ void AArcUITester::RebuildLayout()
 						return TesterWidget;
 					};
 					auto* TesterWidget = MakeWidget(LayerWidget->GetActiveWidget());
-					const FArcUITester_Layer TesterLayer{Tag, LayerWidget->GetName(), TesterWidget};
+					const FArcUITester_Layer TesterLayer{Tag, TesterWidget};
 					
-					Layout.Layers.Add(TesterLayer);
+					UILayers.Add(TesterLayer);
 				}
 			}
 		}
 	}
 }
+#endif

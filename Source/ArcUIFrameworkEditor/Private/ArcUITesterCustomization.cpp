@@ -6,6 +6,7 @@
 #include "DetailCategoryBuilder.h"
 #include "DetailLayoutBuilder.h"
 #include "DetailWidgetRow.h"
+#include "IDetailChildrenBuilder.h"
 
 
 #define LOCTEXT_NAMESPACE "MaterialAnalyzer"
@@ -18,8 +19,7 @@ void FArcUITesterCustomization::CustomizeDetails(IDetailLayoutBuilder& DetailBui
 
 	if (Object->GetWorld()->WorldType != EWorldType::PIE)
 	{
-		const TSharedRef<IPropertyHandle> LayoutProperty = DetailBuilder.GetProperty(GET_MEMBER_NAME_CHECKED(AArcUITester, Layout));
-		DetailBuilder.HideProperty(LayoutProperty);
+		DetailBuilder.HideCategory("Widgets");
 		return;
 	}
 	
@@ -76,6 +76,40 @@ void FArcUITesterCustomization::CustomizeDetails(IDetailLayoutBuilder& DetailBui
 					}))
 				]
 			];
+}
+
+void FArcUIModelWrapperCustomization::CustomizeHeader(TSharedRef<IPropertyHandle> PropertyHandle, FDetailWidgetRow& HeaderRow, IPropertyTypeCustomizationUtils& CustomizationUtils)
+{
+
+}
+
+void FArcUIModelWrapperCustomization::CustomizeChildren(TSharedRef<IPropertyHandle> PropertyHandle,
+	IDetailChildrenBuilder& ChildBuilder, IPropertyTypeCustomizationUtils& CustomizationUtils)
+{
+	TArray<void*> RawData;
+	PropertyHandle->AccessRawData(RawData);
+	if (auto* ModelWrapper = reinterpret_cast<FArcUITester_ModelWrapper*>(RawData[0]))
+	{
+		const auto ModelProp = PropertyHandle->GetChildHandle(GET_MEMBER_NAME_CHECKED(FArcUITester_ModelWrapper, Model));
+		ChildBuilder.AddProperty(ModelProp.ToSharedRef());
+		if (ModelWrapper->Model.IsValid())
+		{
+			ChildBuilder.AddCustomRow(LOCTEXT("ContextActions", "ChooseContextAction"))
+			.WholeRowContent()
+			[
+				SNew(SButton)
+				.HAlign(HAlign_Center)
+				.VAlign(VAlign_Center)
+				.Text(LOCTEXT("FunctionNewInputArg", "Push Model To Widget"))
+				.OnClicked(FOnClicked::CreateLambda([ModelWrapper]()
+				{
+					[[maybe_unused]]
+					const bool bExecuted = ModelWrapper->OnModelPushRequest.ExecuteIfBound();
+					return FReply::Handled();
+				}))
+			];
+		}
+	}
 }
 
 #undef LOCTEXT_NAMESPACE

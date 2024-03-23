@@ -19,7 +19,10 @@ public class ArcUIFrameworkEditor : ModuleRules
                 "CoreUObject",
                 "Engine",
                 "Slate",
-                "SlateCore", "ArcUIFramework"
+                "SlateCore",
+                "StructUtils",
+
+                "ArcUIFramework",
             }
         );
     }

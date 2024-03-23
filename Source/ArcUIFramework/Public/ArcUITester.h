@@ -13,8 +13,21 @@ class UCommonActivatableWidgetContainerBase;
 struct FArcUIContextPayload;
 struct FArcUITester_Widget;
 
+DECLARE_DELEGATE(FArcUITesterPushModel);
 
-UCLASS(BlueprintType, DefaultToInstanced)
+USTRUCT(BlueprintType)
+struct ARCUIFRAMEWORK_API FArcUITester_ModelWrapper
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Model")
+	TInstancedStruct<FArcUIModel> Model;
+
+	FArcUITesterPushModel OnModelPushRequest;
+};
+
+
+UCLASS(BlueprintType, NotBlueprintable, DefaultToInstanced)
 class ARCUIFRAMEWORK_API UArcUITester_Widget : public UObject
 {
 	GENERATED_BODY()
@@ -24,9 +37,8 @@ public:
     FString Name;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Model")
-	TInstancedStruct<FArcUIModel> Model;
+	FArcUITester_ModelWrapper Model;
 	
-	UFUNCTION(CallInEditor, Category="Model")
 	void UpdateWithModel() const;
 	
 	UPROPERTY(VisibleAnywhere, Instanced, meta=(NoResetToDefault))
@@ -37,10 +49,6 @@ public:
 
 	UPROPERTY(Transient)
 	bool bImplementsInterface{false};
-
-#if WITH_EDITOR
-	virtual void PostEditChangeChainProperty(FPropertyChangedChainEvent& PropertyChangedEvent) override;
-#endif
 };
 
 
@@ -52,21 +60,8 @@ struct FArcUITester_Layer
 	UPROPERTY(VisibleAnywhere, meta=(NoResetToDefault))
 	FGameplayTag Tag;
 
-	UPROPERTY(VisibleAnywhere, meta=(NoResetToDefault))
-	FString Name;
-
-	UPROPERTY(VisibleAnywhere, Instanced, meta=(NoResetToDefault))
+	UPROPERTY(VisibleAnywhere, Instanced, meta=(ShowOnlyInnerProperties, NoResetToDefault))
 	TObjectPtr<UArcUITester_Widget> Widget{nullptr};
-};
-
-
-USTRUCT(BlueprintType)
-struct FArcUITester_Layout
-{
-	GENERATED_BODY()
-
-	UPROPERTY(VisibleAnywhere, meta=(NoResetToDefault))
-	TArray<FArcUITester_Layer> Layers;
 };
 
 
@@ -75,12 +70,13 @@ class ARCUIFRAMEWORK_API AArcUITester : public AInfo
 {
 	GENERATED_BODY()
 
+#if WITH_EDITORONLY_DATA
+
 public:
 	AArcUITester();
 	
 	virtual void BeginPlay() override;
 
-#if WITH_EDITORONLY_DATA
 	UPROPERTY(EditAnywhere, Category="Context", meta=(Categories="ArcUI.Context"))
 	FGameplayTag Context;
 
@@ -91,10 +87,11 @@ public:
 	void AddExclusiveContext();
 	void RemoveContext();
 
-	UPROPERTY(VisibleAnywhere, meta=(NoResetToDefault))
-	FArcUITester_Layout Layout;
-#endif;
+	UPROPERTY(VisibleAnywhere, DisplayName="Layers", Category="Widgets", meta=(ShowOnlyInnerProperties, NoResetToDefault, TitleProperty="Tag.ToString()"))
+	TArray<FArcUITester_Layer> UILayers;
 
 private:
 	void RebuildLayout();
+
+#endif;
 };

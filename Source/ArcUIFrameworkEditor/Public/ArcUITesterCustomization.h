@@ -13,3 +13,25 @@ struct FArcUITesterCustomization final : public IDetailCustomization
 
 	virtual void CustomizeDetails(IDetailLayoutBuilder& DetailBuilder) override;
 };
+
+struct FArcUILayerCustomization final : public IPropertyTypeCustomization
+{
+	static TSharedRef<IPropertyTypeCustomization> MakeInstance()
+	{
+		return MakeShareable(new FArcUILayerCustomization);
+	}
+
+	virtual void CustomizeHeader(TSharedRef<IPropertyHandle> PropertyHandle, FDetailWidgetRow& HeaderRow, IPropertyTypeCustomizationUtils& CustomizationUtils) override;
+	virtual void CustomizeChildren(TSharedRef<IPropertyHandle> PropertyHandle, IDetailChildrenBuilder& ChildBuilder, IPropertyTypeCustomizationUtils& CustomizationUtils) override;
+};
+
+struct FArcUIModelWrapperCustomization final : public IPropertyTypeCustomization
+{
+	static TSharedRef<IPropertyTypeCustomization> MakeInstance()
+    {
+		return MakeShareable(new FArcUIModelWrapperCustomization);
+    }
+
+	virtual void CustomizeHeader(TSharedRef<IPropertyHandle> PropertyHandle, FDetailWidgetRow& HeaderRow, IPropertyTypeCustomizationUtils& CustomizationUtils) override;
+	virtual void CustomizeChildren(TSharedRef<IPropertyHandle> PropertyHandle, IDetailChildrenBuilder& ChildBuilder, IPropertyTypeCustomizationUtils& CustomizationUtils) override;
+};
