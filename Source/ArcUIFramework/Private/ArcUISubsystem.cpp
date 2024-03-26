@@ -274,7 +274,7 @@ void UArcUISubsystem::OnPlayerRemoved(ULocalPlayer* LocalPlayer)
 	}
 }
 
-UUserWidget* UArcUISubsystem::CreateWidgetOnLayout(FGameplayTag InAssetTag, FGameplayTag InContextTag, FGameplayTag InLayerTag)
+UUserWidget* UArcUISubsystem::CreateWidgetOnLayout(FGameplayTag InAssetTag, FGameplayTag InContextTag, FGameplayTag InLayerTag, FName SlotName/* = NAME_None*/)
 {
 	if (!Layout)
 	{
@@ -304,7 +304,16 @@ UUserWidget* UArcUISubsystem::CreateWidgetOnLayout(FGameplayTag InAssetTag, FGam
 	if (auto* ParentWidget = Layout->GetActiveWidgetOnLayer(InLayerTag))
 	{
 		NewWidget = CreateWidget<UUserWidget>(ParentWidget, WidgetClass);
-		NewWidget->AddToPlayerScreen();
+
+		if (SlotName.IsNone())
+		{
+			NewWidget->AddToPlayerScreen();
+		}
+		else
+		{
+			ParentWidget->SetContentForSlot(SlotName, NewWidget);
+		}
+
 		ManagedWidgets.Add({NewWidget, InAssetTag, InContextTag, InLayerTag});
 		UE_LOG(LogArcUI, Verbose, TEXT("CreateWidgetOnLayout - Widget %s from Asset [%s], with context [%s] was added to parent %s on layer [%s]"),
 			*NewWidget->GetName(), *InAssetTag.ToString(), *InContextTag.ToString(), *ParentWidget->GetName(), *InLayerTag.ToString());

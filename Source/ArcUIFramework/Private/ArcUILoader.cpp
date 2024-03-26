@@ -160,7 +160,7 @@ void UArcUILoader::OnContextAdded(FGameplayTag ContextTag)
 			// creation
 			if (ContextAction->bCreationTiedToContext)
 			{
-				UISubsystem->CreateWidgetOnLayout(UIAsset.AssetTag, ContextAction->ContextTag, ContextAction->CreateOnLayerTag);
+				UISubsystem->CreateWidgetOnLayout(UIAsset.AssetTag, ContextAction->ContextTag, ContextAction->CreateOnLayerTag, ContextAction->SlotName);
 			}
 		}
 	});

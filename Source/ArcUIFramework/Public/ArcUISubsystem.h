@@ -113,7 +113,8 @@ public:
 	UUserWidget* CreateWidgetOnLayout(
 		UPARAM(meta=(Categories = "ArcUI.Asset")) FGameplayTag InAssetTag,
 		UPARAM(meta=(Categories = "ArcUI.Context")) FGameplayTag InContextTag,
-		UPARAM(meta=(Categories = "ArcUI.Layer")) FGameplayTag InLayerTag);
+		UPARAM(meta=(Categories = "ArcUI.Layer")) FGameplayTag InLayerTag,
+		FName SlotName = NAME_None);
 
 	void DestroyWidget(FGameplayTag InAssetTag, FGameplayTag InContextTag, FGameplayTag InLayerTag);
 
