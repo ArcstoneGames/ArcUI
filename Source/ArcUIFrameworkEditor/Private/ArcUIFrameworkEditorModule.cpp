@@ -11,14 +11,14 @@ void FArcUIFrameworkEditorModule::StartupModule()
 {
 	FPropertyEditorModule& PropertyModule = FModuleManager::LoadModuleChecked<FPropertyEditorModule>("PropertyEditor");
 	PropertyModule.RegisterCustomClassLayout(AArcUITester::StaticClass()->GetFName(), FOnGetDetailCustomizationInstance::CreateStatic(&FArcUITesterCustomization::MakeInstance));
-	PropertyModule.RegisterCustomPropertyTypeLayout("ArcUITester_ModelWrapper", FOnGetPropertyTypeCustomizationInstance::CreateStatic(&FArcUIModelWrapperCustomization::MakeInstance));
+	PropertyModule.RegisterCustomPropertyTypeLayout(FArcUIViewPayloadWrapper::StaticStruct()->GetFName(), FOnGetPropertyTypeCustomizationInstance::CreateStatic(&FArcUIViewPayloadWrapperCustomization::MakeInstance));
 }
 
 void FArcUIFrameworkEditorModule::ShutdownModule()
 {
 	FPropertyEditorModule& PropertyModule = FModuleManager::LoadModuleChecked<FPropertyEditorModule>("PropertyEditor");
 	PropertyModule.UnregisterCustomClassLayout(AArcUITester::StaticClass()->GetFName());
-	PropertyModule.UnregisterCustomPropertyTypeLayout("ArcUITester_ModelWrapper");
+	PropertyModule.UnregisterCustomPropertyTypeLayout(FArcUIViewPayloadWrapper::StaticStruct()->GetFName());
 }
 
 #undef LOCTEXT_NAMESPACE

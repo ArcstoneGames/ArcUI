@@ -10,7 +10,7 @@
 /**
  * 
  */
-UCLASS()
+UCLASS(Abstract)
 class ARCUICOMMON_API UArcActivatableWidget : public UCommonActivatableWidget
 {
 	GENERATED_BODY()

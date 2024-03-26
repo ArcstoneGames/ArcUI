@@ -30,6 +30,10 @@ struct ARCUIFRAMEWORK_API FArcUIContextAction final
 	/** On which layer to create the asset. None means outside of layers */
 	UPROPERTY(EditAnywhere, meta=(Categories="ArcUI.Layer", EditCondition="bCreationTiedToContext"))
 	FGameplayTag CreateOnLayerTag;
+
+	/** On which slot to add the widget. None means placed on screen */
+	UPROPERTY(EditAnywhere, meta=(EditCondition="bCreationTiedToContext"))
+	FName SlotName;
 };
 
 

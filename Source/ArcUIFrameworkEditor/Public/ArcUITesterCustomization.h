@@ -25,11 +25,11 @@ struct FArcUILayerCustomization final : public IPropertyTypeCustomization
 	virtual void CustomizeChildren(TSharedRef<IPropertyHandle> PropertyHandle, IDetailChildrenBuilder& ChildBuilder, IPropertyTypeCustomizationUtils& CustomizationUtils) override;
 };
 
-struct FArcUIModelWrapperCustomization final : public IPropertyTypeCustomization
+struct FArcUIViewPayloadWrapperCustomization final : public IPropertyTypeCustomization
 {
 	static TSharedRef<IPropertyTypeCustomization> MakeInstance()
     {
-		return MakeShareable(new FArcUIModelWrapperCustomization);
+		return MakeShareable(new FArcUIViewPayloadWrapperCustomization);
     }
 
 	virtual void CustomizeHeader(TSharedRef<IPropertyHandle> PropertyHandle, FDetailWidgetRow& HeaderRow, IPropertyTypeCustomizationUtils& CustomizationUtils) override;

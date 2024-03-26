@@ -2,20 +2,21 @@
 
 #include "ArcUITester.h"
 
-#include <functional>
-
+// ArcUI
 #include "ArcUISubsystem.h"
 #include "ArcUILayout.h"
-#include "ArcUIModel.h"
+#include "ArcUIViewPayload.h"
+// CommonUI
 #include "CommonActivatableWidget.h"
 
-void UArcUITester_Widget::UpdateWithModel() const
+
+void UArcUITester_Widget::PushViewPayload() const
 {
-	if (bImplementsInterface && Model.Model.IsValid())
+	if (bImplementsInterface && ViewPayload.Payload.IsValid())
 	{
-		if (auto* ModelReceiver = Cast<IArcUIModelReceiver>(Widget))
+		if (auto* PayloadReceiver = Cast<IArcUIViewPayloadReceiver>(Widget))
 		{
-			ModelReceiver->UpdateWithModel(Model.Model);
+			PayloadReceiver->PushPayload(ViewPayload.Payload);
 		}
 	}
 }
@@ -94,7 +95,7 @@ void AArcUITester::RebuildLayout()
 			{
 				if (const auto* LayerWidget = UILayout->GetLayer(Tag))
 				{
-					std::function<UArcUITester_Widget*(const UUserWidget*)> MakeWidget;
+					TFunction<UArcUITester_Widget*(const UUserWidget*)> MakeWidget;
 					MakeWidget = [&](const UUserWidget* InWidget)
 					{
 						auto* TesterWidget = NewObject<UArcUITester_Widget>(this);
@@ -102,8 +103,8 @@ void AArcUITester::RebuildLayout()
 						{
 							TesterWidget->Widget = InWidget;
 							TesterWidget->Name = InWidget->GetName();
-							TesterWidget->bImplementsInterface = InWidget->Implements<UArcUIModelReceiver>();
-							TesterWidget->Model.OnModelPushRequest.BindUObject(TesterWidget, &UArcUITester_Widget::UpdateWithModel);
+							TesterWidget->bImplementsInterface = InWidget->Implements<UArcUIViewPayloadReceiver>();
+							TesterWidget->ViewPayload.OnPushViewPayload.BindUObject(TesterWidget, &UArcUITester_Widget::PushViewPayload);
 							InWidget->WidgetTree->ForEachWidget([&](UWidget* Widget)
 							{
 								if (const auto* UserWidget = Cast<UUserWidget>(Widget))

@@ -78,21 +78,20 @@ void FArcUITesterCustomization::CustomizeDetails(IDetailLayoutBuilder& DetailBui
 			];
 }
 
-void FArcUIModelWrapperCustomization::CustomizeHeader(TSharedRef<IPropertyHandle> PropertyHandle, FDetailWidgetRow& HeaderRow, IPropertyTypeCustomizationUtils& CustomizationUtils)
+void FArcUIViewPayloadWrapperCustomization::CustomizeHeader(TSharedRef<IPropertyHandle> PropertyHandle, FDetailWidgetRow& HeaderRow, IPropertyTypeCustomizationUtils& CustomizationUtils)
 {
 
 }
 
-void FArcUIModelWrapperCustomization::CustomizeChildren(TSharedRef<IPropertyHandle> PropertyHandle,
-	IDetailChildrenBuilder& ChildBuilder, IPropertyTypeCustomizationUtils& CustomizationUtils)
+void FArcUIViewPayloadWrapperCustomization::CustomizeChildren(TSharedRef<IPropertyHandle> PropertyHandle,	IDetailChildrenBuilder& ChildBuilder, IPropertyTypeCustomizationUtils& CustomizationUtils)
 {
 	TArray<void*> RawData;
 	PropertyHandle->AccessRawData(RawData);
-	if (auto* ModelWrapper = reinterpret_cast<FArcUITester_ModelWrapper*>(RawData[0]))
+	if (auto* PayloadWrapper = reinterpret_cast<FArcUIViewPayloadWrapper*>(RawData[0]))
 	{
-		const auto ModelProp = PropertyHandle->GetChildHandle(GET_MEMBER_NAME_CHECKED(FArcUITester_ModelWrapper, Model));
-		ChildBuilder.AddProperty(ModelProp.ToSharedRef());
-		if (ModelWrapper->Model.IsValid())
+		const auto PayloadProp = PropertyHandle->GetChildHandle(GET_MEMBER_NAME_CHECKED(FArcUIViewPayloadWrapper, Payload));
+		ChildBuilder.AddProperty(PayloadProp.ToSharedRef());
+		if (PayloadWrapper->Payload.IsValid())
 		{
 			ChildBuilder.AddCustomRow(LOCTEXT("ContextActions", "ChooseContextAction"))
 			.WholeRowContent()
@@ -100,11 +99,11 @@ void FArcUIModelWrapperCustomization::CustomizeChildren(TSharedRef<IPropertyHand
 				SNew(SButton)
 				.HAlign(HAlign_Center)
 				.VAlign(VAlign_Center)
-				.Text(LOCTEXT("FunctionNewInputArg", "Push Model To Widget"))
-				.OnClicked(FOnClicked::CreateLambda([ModelWrapper]()
+				.Text(LOCTEXT("FunctionNewInputArg", "Push Payload To Widget"))
+				.OnClicked(FOnClicked::CreateLambda([PayloadWrapper]()
 				{
 					[[maybe_unused]]
-					const bool bExecuted = ModelWrapper->OnModelPushRequest.ExecuteIfBound();
+					const bool bExecuted = PayloadWrapper->OnPushViewPayload.ExecuteIfBound();
 					return FReply::Handled();
 				}))
 			];

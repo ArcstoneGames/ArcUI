@@ -8,22 +8,22 @@
 // generated
 #include "ArcUITester.generated.h"
 
-struct FArcUIModel;
+struct FArcUIViewPayload;
 class UCommonActivatableWidgetContainerBase;
 struct FArcUIContextPayload;
 struct FArcUITester_Widget;
 
-DECLARE_DELEGATE(FArcUITesterPushModel);
+DECLARE_DELEGATE(FArcUIOnPushViewPayload);
 
 USTRUCT(BlueprintType)
-struct ARCUIFRAMEWORK_API FArcUITester_ModelWrapper
+struct ARCUIFRAMEWORK_API FArcUIViewPayloadWrapper
 {
 	GENERATED_BODY()
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Model")
-	TInstancedStruct<FArcUIModel> Model;
+	UPROPERTY(EditAnywhere)
+	TInstancedStruct<FArcUIViewPayload> Payload;
 
-	FArcUITesterPushModel OnModelPushRequest;
+	FArcUIOnPushViewPayload OnPushViewPayload;
 };
 
 
@@ -36,10 +36,10 @@ public:
 	UPROPERTY(VisibleAnywhere, meta=(NoResetToDefault))
     FString Name;
 	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Model")
-	FArcUITester_ModelWrapper Model;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Payload")
+	FArcUIViewPayloadWrapper ViewPayload;
 	
-	void UpdateWithModel() const;
+	void PushViewPayload() const;
 	
 	UPROPERTY(VisibleAnywhere, Instanced, meta=(NoResetToDefault))
 	TArray<TObjectPtr<UArcUITester_Widget>> Children;
