@@ -8,7 +8,7 @@
 #include "ArcUISettings.generated.h"
 
 class UArcUILayout;
-struct FArcUIAsset;
+struct FArcUIViewInfo;
 struct FArcUIPresenterInfo;
 
 UCLASS(Config=Game, defaultconfig, meta = (DisplayName="ArcUI Settings"))
@@ -21,13 +21,13 @@ public:
 	UPROPERTY(Config, EditAnywhere, BlueprintReadOnly, Category = "Layout")
 	TSoftClassPtr<UArcUILayout> LayoutClass{nullptr};
 
-	/** Static list of UI Assets */
-	UPROPERTY(Config, EditAnywhere, BlueprintReadOnly, Category = "Assets")
-	TArray<FArcUIAsset> Assets;
+	/** Static list of Views */
+	UPROPERTY(Config, EditAnywhere, BlueprintReadOnly, Category = "Views")
+	TArray<FArcUIViewInfo> Views;
 
-	/** Registry to use for UI Assets */
-	UPROPERTY(Config, EditAnywhere, BlueprintReadOnly, Category= "Assets")
-	FName AssetsRegistryName{TEXT("ArcUI_AssetsRegistry")};
+	/** Registry to use for Views */
+	UPROPERTY(Config, EditAnywhere, BlueprintReadOnly, Category= "Views")
+	FName ViewsRegistryName{TEXT("ArcUI_ViewsRegistry")};
 
 	/** Static list of UI Presenters */
 	UPROPERTY(Config, EditAnywhere, BlueprintReadOnly, Category = "Presenters")

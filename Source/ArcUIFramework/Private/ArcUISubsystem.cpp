@@ -274,29 +274,29 @@ void UArcUISubsystem::OnPlayerRemoved(ULocalPlayer* LocalPlayer)
 	}
 }
 
-UUserWidget* UArcUISubsystem::CreateWidgetOnLayout(FGameplayTag InAssetTag, FGameplayTag InContextTag, FGameplayTag InLayerTag, FName SlotName/* = NAME_None*/)
+UUserWidget* UArcUISubsystem::CreateWidgetOnLayout(FGameplayTag InViewTag, FGameplayTag InContextTag, FGameplayTag InLayerTag, FName SlotName/* = NAME_None*/)
 {
 	if (!Layout)
 	{
-		UE_LOG(LogArcUI, Warning, TEXT("CreateWidgetOnLayout - No layout to create widget on, from Asset [%s], with context [%s] on layer [%s]"),
-			*InAssetTag.ToString(), *InContextTag.ToString(), *InLayerTag.ToString());
+		UE_LOG(LogArcUI, Warning, TEXT("CreateWidgetOnLayout - No layout to create widget on, from View [%s], with context [%s] on layer [%s]"),
+			*InViewTag.ToString(), *InContextTag.ToString(), *InLayerTag.ToString());
 		return nullptr;
 	}
 
-	const TSubclassOf<UUserWidget> WidgetClass = GetGameInstance()->GetSubsystem<UArcUILoader>()->GetAssetClass<UUserWidget>(InAssetTag, InContextTag);
+	const TSubclassOf<UUserWidget> WidgetClass = GetGameInstance()->GetSubsystem<UArcUILoader>()->GetWidgetClass<UUserWidget>(InViewTag, InContextTag);
 	if (WidgetClass.Get() == nullptr)
 	{
-		UE_LOG(LogArcUI, Warning, TEXT("CreateWidgetOnLayout - Could not create widget from Asset [%s], with context [%s] on layer [%s]"),
-			*InAssetTag.ToString(), *InContextTag.ToString(), *InLayerTag.ToString());
+		UE_LOG(LogArcUI, Warning, TEXT("CreateWidgetOnLayout - Could not create widget from View [%s], with context [%s] on layer [%s]"),
+			*InViewTag.ToString(), *InContextTag.ToString(), *InLayerTag.ToString());
 		return nullptr;
 	}
 	
 	if (const TSubclassOf<UCommonActivatableWidget> ActivatableClass{WidgetClass})
 	{
 		auto* NewWidget = Layout->PushWidgetToLayer(InLayerTag, ActivatableClass);
-		ManagedWidgets.Add({NewWidget, InAssetTag, InContextTag, InLayerTag});
-		UE_LOG(LogArcUI, Verbose, TEXT("CreateWidgetOnLayout - Widget %s from Asset [%s], with context [%s] was pushed on layer [%s]"),
-			*NewWidget->GetName(), *InAssetTag.ToString(), *InContextTag.ToString(), *InLayerTag.ToString());
+		ManagedWidgets.Add({NewWidget, InViewTag, InContextTag, InLayerTag});
+		UE_LOG(LogArcUI, Verbose, TEXT("CreateWidgetOnLayout - Widget %s from View [%s], with context [%s] was pushed on layer [%s]"),
+			*NewWidget->GetName(), *InViewTag.ToString(), *InContextTag.ToString(), *InLayerTag.ToString());
 		return NewWidget;
 	}
 
@@ -314,32 +314,32 @@ UUserWidget* UArcUISubsystem::CreateWidgetOnLayout(FGameplayTag InAssetTag, FGam
 			ParentWidget->SetContentForSlot(SlotName, NewWidget);
 		}
 
-		ManagedWidgets.Add({NewWidget, InAssetTag, InContextTag, InLayerTag});
-		UE_LOG(LogArcUI, Verbose, TEXT("CreateWidgetOnLayout - Widget %s from Asset [%s], with context [%s] was added to parent %s on layer [%s]"),
-			*NewWidget->GetName(), *InAssetTag.ToString(), *InContextTag.ToString(), *ParentWidget->GetName(), *InLayerTag.ToString());
+		ManagedWidgets.Add({NewWidget, InViewTag, InContextTag, InLayerTag});
+		UE_LOG(LogArcUI, Verbose, TEXT("CreateWidgetOnLayout - Widget %s from View [%s], with context [%s] was added to parent %s on layer [%s]"),
+			*NewWidget->GetName(), *InViewTag.ToString(), *InContextTag.ToString(), *ParentWidget->GetName(), *InLayerTag.ToString());
 		return NewWidget;
 	}
 
-	UE_LOG(LogArcUI, Warning, TEXT("CreateWidgetOnLayout - No active widget on layer [%s] to create widget from Asset [%s], with context [%s]"),
-		*InLayerTag.ToString(), *InAssetTag.ToString(), *InContextTag.ToString());
+	UE_LOG(LogArcUI, Warning, TEXT("CreateWidgetOnLayout - No active widget on layer [%s] to create widget from View [%s], with context [%s]"),
+		*InLayerTag.ToString(), *InViewTag.ToString(), *InContextTag.ToString());
 	return nullptr;
 }
 
-void UArcUISubsystem::DestroyWidget(FGameplayTag InAssetTag, FGameplayTag InContextTag, FGameplayTag InLayerTag)
+void UArcUISubsystem::DestroyWidget(FGameplayTag InViewTag, FGameplayTag InContextTag, FGameplayTag InLayerTag)
 {
 	for (int32 ItemIndex = 0; ItemIndex < ManagedWidgets.Num();)
 	{
 		const auto& Widget = ManagedWidgets[ItemIndex];
-		if (Widget.AssetTag == InAssetTag && Widget.ContextTag == InContextTag && Widget.LayerTag == InLayerTag)
+		if (Widget.ViewTag == InViewTag && Widget.ContextTag == InContextTag && Widget.LayerTag == InLayerTag)
 		{
 			if (auto* Activatable = Cast<UCommonActivatableWidget>(Widget.Widget); Activatable && Layout)
 			{
-				UE_LOG(LogArcUI, Verbose, TEXT("DestroyWidget - Widget %s removed from layer [%s, %s, %s]"), *Widget.Widget->GetName(), *InAssetTag.ToString(), *InContextTag.ToString(), *InLayerTag.ToString());
+				UE_LOG(LogArcUI, Verbose, TEXT("DestroyWidget - Widget %s removed from layer [%s, %s, %s]"), *Widget.Widget->GetName(), *InViewTag.ToString(), *InContextTag.ToString(), *InLayerTag.ToString());
 				Layout->RemoveWidgetFromLayer(Activatable, InLayerTag);
 			}
 			else
 			{
-				UE_LOG(LogArcUI, Verbose, TEXT("DestroyWidget - Widget %s removed from parent [%s, %s, %s]"), *Widget.Widget->GetName(), *InAssetTag.ToString(), *InContextTag.ToString(), *InLayerTag.ToString());
+				UE_LOG(LogArcUI, Verbose, TEXT("DestroyWidget - Widget %s removed from parent [%s, %s, %s]"), *Widget.Widget->GetName(), *InViewTag.ToString(), *InContextTag.ToString(), *InLayerTag.ToString());
 				Widget.Widget->RemoveFromParent();
 			}
 
@@ -362,11 +362,11 @@ UUserWidget* UArcUISubsystem::GetActiveWidgetOnLayer(FGameplayTag LayerTag) cons
 	return nullptr;
 }
 
-UUserWidget* UArcUISubsystem::GetCreatedWidget(FGameplayTag InAssetTag, FGameplayTag InContextTag, FGameplayTag InLayerTag) const
+UUserWidget* UArcUISubsystem::GetCreatedWidget(FGameplayTag InViewTag, FGameplayTag InContextTag, FGameplayTag InLayerTag) const
 {
-	for (const auto& [Widget, AssetTag, ContextTag, LayerTag] : ManagedWidgets)
+	for (const auto& [Widget, ViewTag, ContextTag, LayerTag] : ManagedWidgets)
 	{
-		if (AssetTag == InAssetTag && ContextTag == InContextTag && LayerTag == InLayerTag)
+		if (ViewTag == InViewTag && ContextTag == InContextTag && LayerTag == InLayerTag)
 		{
 			return Widget;
 		}

@@ -25,7 +25,7 @@ struct FArcUIManagedWidget
 	UPROPERTY(Transient)
 	TObjectPtr<UUserWidget> Widget{nullptr};
 
-	FGameplayTag AssetTag;
+	FGameplayTag ViewTag;
 	FGameplayTag ContextTag;
 	FGameplayTag LayerTag;
 };
@@ -111,12 +111,12 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category="UI", BlueprintCosmetic)
 	UUserWidget* CreateWidgetOnLayout(
-		UPARAM(meta=(Categories = "ArcUI.Asset")) FGameplayTag InAssetTag,
+		UPARAM(meta=(Categories = "ArcUI.View")) FGameplayTag InViewTag,
 		UPARAM(meta=(Categories = "ArcUI.Context")) FGameplayTag InContextTag,
 		UPARAM(meta=(Categories = "ArcUI.Layer")) FGameplayTag InLayerTag,
 		FName SlotName = NAME_None);
 
-	void DestroyWidget(FGameplayTag InAssetTag, FGameplayTag InContextTag, FGameplayTag InLayerTag);
+	void DestroyWidget(FGameplayTag InViewTag, FGameplayTag InContextTag, FGameplayTag InLayerTag);
 
 	const UArcUILayout* GetLayout() const { return Layout; }
 	
@@ -125,7 +125,7 @@ public:
 
 	UFUNCTION(BlueprintPure, Category="UI", BlueprintCosmetic)
 	UUserWidget* GetCreatedWidget(
-		UPARAM(meta=(Categories = "ArcUI.Asset")) FGameplayTag InAssetTag,
+		UPARAM(meta=(Categories = "ArcUI.View")) FGameplayTag InViewTag,
 		UPARAM(meta=(Categories = "ArcUI.Context")) FGameplayTag InContextTag,
 		UPARAM(meta=(Categories = "ArcUI.Layer")) FGameplayTag InLayerTag) const;
 
