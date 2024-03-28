@@ -12,7 +12,8 @@
 	"SupportURL": "",
 	"EnabledByDefault": false,
 	"IsBetaVersion": false,
-	"IsExperimentalVersion": true,
+	"IsExperimentalVersion": false,
+	"CanContainContent": true,
 	"Modules": [
 		{
 			"Name": "ArcUIFramework",

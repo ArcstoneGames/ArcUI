@@ -107,7 +107,7 @@ void UArcUILoader::Initialize(FSubsystemCollectionBase& Collection)
 		if (PresenterInfo.bKeepAlwaysLoaded)
 		{
 			// Using the global Tag here as these Presenters are not tied to any context
-			CreatePresenter(ArcUITags::Context, PresenterInfo);
+			CreatePresenter(ArcUITags::ContextRoot, PresenterInfo);
 		}
 	});
 	
