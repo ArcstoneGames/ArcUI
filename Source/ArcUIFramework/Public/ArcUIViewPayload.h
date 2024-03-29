@@ -21,7 +21,7 @@ struct ARCUIFRAMEWORK_API FArcUIViewPayload_Ints final : public FArcUIViewPayloa
 {
 	GENERATED_BODY()
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TArray<int32> Values;
 };
 
@@ -34,7 +34,7 @@ struct ARCUIFRAMEWORK_API FArcUIViewPayload_Floats final : public FArcUIViewPayl
 {
 	GENERATED_BODY()
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TArray<float> Values;
 };
 
@@ -47,7 +47,7 @@ struct ARCUIFRAMEWORK_API FArcUIViewPayload_Tags final : public FArcUIViewPayloa
 {
 	GENERATED_BODY()
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TArray<FGameplayTag> Values;
 };
 
