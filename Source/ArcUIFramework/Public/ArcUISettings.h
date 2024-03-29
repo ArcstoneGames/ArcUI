@@ -18,7 +18,7 @@ class ARCUIFRAMEWORK_API UArcUISettings final : public UDeveloperSettings
 
 public:
 	/** Unique game UI layout */
-	UPROPERTY(Config, EditAnywhere, BlueprintReadOnly, Category = "Layout", meta=(NoResetToDefault))
+	UPROPERTY(Config, EditAnywhere, BlueprintReadOnly, Category = "Layout", NoClear)
 	TSoftClassPtr<UArcUILayout> LayoutClass{nullptr};
 
 	/** Static list of Views */
