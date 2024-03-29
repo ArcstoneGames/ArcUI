@@ -13,6 +13,45 @@ struct ARCUIFRAMEWORK_API FArcUIViewPayload
 };
 
 
+/**
+ * Convenience View Payload containing ints
+ */
+USTRUCT(BlueprintType)
+struct ARCUIFRAMEWORK_API FArcUIViewPayload_Ints final : public FArcUIViewPayload
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	TArray<int32> Values;
+};
+
+
+/**
+ * Convenience View Payload containing floats
+ */
+USTRUCT(BlueprintType)
+struct ARCUIFRAMEWORK_API FArcUIViewPayload_Floats final : public FArcUIViewPayload
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	TArray<float> Values;
+};
+
+
+/**
+ * Convenience View Payload containing Gameplay Tags
+ */
+USTRUCT(BlueprintType)
+struct ARCUIFRAMEWORK_API FArcUIViewPayload_Tags final : public FArcUIViewPayload
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	TArray<FGameplayTag> Values;
+};
+
+
 UINTERFACE()
 class ARCUIFRAMEWORK_API UArcUIViewPayloadReceiver : public UInterface
 {
