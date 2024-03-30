@@ -24,7 +24,7 @@ struct ARCUIFRAMEWORK_API FArcUIContextAction final
 	bool bLoadingTiedToContext{false};
 
 	/** Should this view be created when its context is added */
-	UPROPERTY(EditAnywhere, meta=(InlineEditConditionToggle))
+	UPROPERTY(EditAnywhere)
 	bool bCreationTiedToContext{false};
 
 	/** On which layer to create the view's widget. None means outside of layers */
