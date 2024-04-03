@@ -352,7 +352,7 @@ void UArcUISubsystem::DestroyWidget(FGameplayTag InViewTag, FGameplayTag InConte
 	}
 }
 
-UUserWidget* UArcUISubsystem::GetActiveWidgetOnLayer(FGameplayTag LayerTag) const
+UUserWidget* UArcUISubsystem::GetActiveWidgetOnLayer_Impl(FGameplayTag LayerTag) const
 {
 	if (Layout)
 	{

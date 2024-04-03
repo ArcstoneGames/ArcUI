@@ -120,8 +120,8 @@ public:
 
 	const UArcUILayout* GetLayout() const { return Layout; }
 	
-	[[nodiscard]]
-	UUserWidget* GetActiveWidgetOnLayer(FGameplayTag LayerTag) const;
+	template<typename T=UUserWidget>
+	T* GetActiveWidgetOnLayer(FGameplayTag LayerTag) const;
 
 	UFUNCTION(BlueprintPure, Category="UI", BlueprintCosmetic)
 	UUserWidget* GetCreatedWidget(
@@ -129,7 +129,11 @@ public:
 		UPARAM(meta=(Categories = "ArcUI.Context")) FGameplayTag InContextTag,
 		UPARAM(meta=(Categories = "ArcUI.Layer")) FGameplayTag InLayerTag) const;
 
+	template<typename T>
+	T* GetCreatedWidget(FGameplayTag InViewTag, FGameplayTag InContextTag, FGameplayTag InLayerTag) const;
+
 protected:
+	UUserWidget* GetActiveWidgetOnLayer_Impl(FGameplayTag LayerTag) const;
 	void CreateLayout(const ULocalPlayer* LocalPlayer, APlayerController* PlayerController);
 	void DestroyLayout();
 
@@ -151,3 +155,15 @@ protected:
 	UPROPERTY(Transient)
 	TObjectPtr<ULocalPlayer> FirstLocalPlayer{nullptr};
 };
+
+template <typename T>
+T* UArcUISubsystem::GetActiveWidgetOnLayer(FGameplayTag LayerTag) const
+{
+	return Cast<T>(GetActiveWidgetOnLayer_Impl(LayerTag));
+}
+
+template <typename T>
+T* UArcUISubsystem::GetCreatedWidget(FGameplayTag InViewTag, FGameplayTag InContextTag, FGameplayTag InLayerTag) const
+{
+	return Cast<T>(GetCreatedWidget(InViewTag, InContextTag, InLayerTag));
+}
