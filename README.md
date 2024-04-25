@@ -6,6 +6,8 @@ This plugin contains 3 modules:
 * **ArcUIFrameworkEditor** provides a few editor customizations for the previous module
 * **ArcUICommon** contains a few helpers: improved buttons and other widgets...
 
+Please check the demo project which showcases most features: https://github.com/ArcstoneGames/ArcUIDemo/
+
 > [!NOTE]  
 > This plugin relies on a few Epic plugins including CommonUI  
 > Some parts of this plugin are largely inspired by Epic's Lyra project
