@@ -14,7 +14,7 @@ void UArcUITester_Widget::PushViewPayload() const
 {
 	if (bImplementsInterface && ViewPayload.Payload.IsValid())
 	{
-		if (auto* PayloadReceiver = Cast<IArcUIViewPayloadReceiver>(Widget))
+		if (auto* PayloadReceiver = Cast<IArcUIViewPayloadReceiver>(Widget.Get()))
 		{
 			PayloadReceiver->PushPayload(ViewPayload.Payload);
 		}
@@ -95,8 +95,8 @@ void AArcUITester::RebuildLayout()
 			{
 				if (const auto* LayerWidget = UILayout->GetLayer(Tag))
 				{
-					TFunction<UArcUITester_Widget*(const UUserWidget*)> MakeWidget;
-					MakeWidget = [&](const UUserWidget* InWidget)
+					TFunction<UArcUITester_Widget*(UUserWidget*)> MakeWidget;
+					MakeWidget = [&](UUserWidget* InWidget)
 					{
 						auto* TesterWidget = NewObject<UArcUITester_Widget>(this);
 						if (InWidget)
@@ -107,7 +107,7 @@ void AArcUITester::RebuildLayout()
 							TesterWidget->ViewPayload.OnPushViewPayload.BindUObject(TesterWidget, &UArcUITester_Widget::PushViewPayload);
 							InWidget->WidgetTree->ForEachWidget([&](UWidget* Widget)
 							{
-								if (const auto* UserWidget = Cast<UUserWidget>(Widget))
+								if (auto* UserWidget = Cast<UUserWidget>(Widget))
 								{
 									TesterWidget->Children.Add(MakeWidget(UserWidget));
 								}

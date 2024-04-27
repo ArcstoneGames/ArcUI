@@ -45,7 +45,7 @@ public:
 	TArray<TObjectPtr<UArcUITester_Widget>> Children;
 
 	UPROPERTY(Transient)
-	TObjectPtr<const UUserWidget> Widget{nullptr};
+	TObjectPtr<UUserWidget> Widget{nullptr};
 
 	UPROPERTY(Transient)
 	bool bImplementsInterface{false};
