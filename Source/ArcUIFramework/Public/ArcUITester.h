@@ -13,7 +13,6 @@ class UCommonActivatableWidgetContainerBase;
 struct FArcUIContextPayload;
 struct FArcUITester_Widget;
 
-DECLARE_DELEGATE(FArcUIOnPushViewPayload);
 
 USTRUCT(BlueprintType)
 struct ARCUIFRAMEWORK_API FArcUIViewPayloadWrapper
@@ -23,6 +22,7 @@ struct ARCUIFRAMEWORK_API FArcUIViewPayloadWrapper
 	UPROPERTY(EditAnywhere)
 	TInstancedStruct<FArcUIViewPayload> Payload;
 
+	DECLARE_DELEGATE(FArcUIOnPushViewPayload);
 	FArcUIOnPushViewPayload OnPushViewPayload;
 };
 
@@ -34,7 +34,7 @@ class ARCUIFRAMEWORK_API UArcUITester_Widget : public UObject
 
 public:
 	UPROPERTY(VisibleAnywhere, meta=(NoResetToDefault))
-    FString Name;
+	FString Name;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Payload")
 	FArcUIViewPayloadWrapper ViewPayload;
