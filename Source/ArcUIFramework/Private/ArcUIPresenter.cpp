@@ -13,28 +13,28 @@ bool UArcUIPresenter::HasContextTag(FGameplayTag ContextTag) const
 void UArcUIPresenter::OnContextAdded(FGameplayTag ContextTag, const TInstancedStruct<FArcUIContextPayload>& Payload)
 {
 	const bool bHandled = HandleOnContextAdded(ContextTag, Payload);
-	UE_CLOG(!bHandled, LogArcUI, Display, TEXT("OnContextAdded on Tag %s not handled natively by %s"), *ContextTag.ToString(), *GetNameSafe(this));
+	UE_CLOG(!bHandled, LogArcUI, Verbose, TEXT("OnContextAdded on Tag %s not handled natively by %s"), *ContextTag.ToString(), *GetNameSafe(this));
 	BP_HandleOnContextAdded(ContextTag, Payload);
 }
 
 void UArcUIPresenter::OnContextRemoved(FGameplayTag ContextTag)
 {
 	const bool bHandled = HandleOnContextRemoved(ContextTag);
-	UE_CLOG(!bHandled, LogArcUI, Display, TEXT("OnContextRemoved on Tag %s not handled natively by %s"), *ContextTag.ToString(), *GetNameSafe(this));
+	UE_CLOG(!bHandled, LogArcUI, Verbose, TEXT("OnContextRemoved on Tag %s not handled natively by %s"), *ContextTag.ToString(), *GetNameSafe(this));
 	BP_HandleOnContextRemoved(ContextTag);
 }
 
 void UArcUIPresenter::ShowContext(FGameplayTag ContextTag)
 {
 	const bool bHandled = HandleShowContext(ContextTag);
-	UE_CLOG(!bHandled, LogArcUI, Display, TEXT("ShowContext on Tag %s not handled natively by %s"), *ContextTag.ToString(), *GetNameSafe(this));
+	UE_CLOG(!bHandled, LogArcUI, Verbose, TEXT("ShowContext on Tag %s not handled natively by %s"), *ContextTag.ToString(), *GetNameSafe(this));
 	BP_HandleShowContext(ContextTag);
 }
 
 void UArcUIPresenter::HideContext(FGameplayTag ContextTag)
 {
 	const bool bHandled = HandleHideContext(ContextTag);
-	UE_CLOG(!bHandled, LogArcUI, Display, TEXT("HideContext on Tag %s not handled natively by %s"), *ContextTag.ToString(), *GetNameSafe(this));
+	UE_CLOG(!bHandled, LogArcUI, Verbose, TEXT("HideContext on Tag %s not handled natively by %s"), *ContextTag.ToString(), *GetNameSafe(this));
 	BP_HandleHideContext(ContextTag);
 }
 
