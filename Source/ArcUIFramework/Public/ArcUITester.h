@@ -3,7 +3,7 @@
 #pragma once
 
 #include "GameplayTagContainer.h"
-#include "InstancedStruct.h"
+#include "StructUtils/InstancedStruct.h"
 #include "GameFramework/Info.h"
 // generated
 #include "ArcUITester.generated.h"

@@ -6,7 +6,7 @@
 #include "ArcUIContext.h"
 // UE5
 #include "GameplayTagContainer.h"
-#include "InstancedStruct.h"
+#include "StructUtils/InstancedStruct.h"
 #include "Engine/DataTable.h"
 // generated
 #include "ArcUIPresenter.generated.h"

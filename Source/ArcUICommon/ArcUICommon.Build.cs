@@ -12,11 +12,10 @@ public class ArcUICommon : ModuleRules
         PublicDependencyModuleNames.AddRange(
             new string[]
             {
-                "Core", 
+                "Core",
                 "UMG",
                 "CommonUI",
-                "CommonInput", 
-                "StructUtils",
+                "CommonInput",
             }
         );
 

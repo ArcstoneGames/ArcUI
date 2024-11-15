@@ -5,7 +5,7 @@
 // CommonUI
 #include "CommonButtonBase.h"
 // UE
-#include "InstancedStruct.h"
+#include "StructUtils/InstancedStruct.h"
 // generated
 #include "ArcButton.generated.h"
 

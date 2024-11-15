@@ -343,7 +343,7 @@ void UArcUISubsystem::DestroyWidget(FGameplayTag InViewTag, FGameplayTag InConte
 				Widget.Widget->RemoveFromParent();
 			}
 
-			ManagedWidgets.RemoveAtSwap(ItemIndex, 1, false);
+			ManagedWidgets.RemoveAtSwap(ItemIndex, 1, EAllowShrinking::Yes);
 		}
 		else
 		{

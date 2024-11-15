@@ -20,7 +20,6 @@ public class ArcUIFrameworkEditor : ModuleRules
                 "Engine",
                 "Slate",
                 "SlateCore",
-                "StructUtils",
 
                 "ArcUIFramework",
             }
