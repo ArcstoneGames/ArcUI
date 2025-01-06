@@ -74,5 +74,5 @@ private:
 
 	// The registered layers for the primary layout.
 	UPROPERTY(Transient, meta = (Categories = "ArcUI.Layer"))
-	TMap<FGameplayTag, UCommonActivatableWidgetContainerBase*> Layers;
+	TMap<FGameplayTag, TObjectPtr<UCommonActivatableWidgetContainerBase>> Layers;
 };
