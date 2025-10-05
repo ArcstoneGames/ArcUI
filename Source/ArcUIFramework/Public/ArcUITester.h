@@ -70,11 +70,11 @@ class ARCUIFRAMEWORK_API AArcUITester : public AInfo
 {
 	GENERATED_BODY()
 
+	AArcUITester();
+
 #if WITH_EDITORONLY_DATA
 
 public:
-	AArcUITester();
-	
 	virtual void BeginPlay() override;
 
 	UPROPERTY(EditAnywhere, Category="Context", meta=(Categories="ArcUI.Context"))

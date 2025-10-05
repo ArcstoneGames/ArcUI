@@ -21,12 +21,12 @@ void UArcUITester_Widget::PushViewPayload() const
 	}
 }
 
-#if WITH_EDITORONLY_DATA
-
 AArcUITester::AArcUITester()
 {
 	PrimaryActorTick.bCanEverTick = false;
 }
+
+#if WITH_EDITORONLY_DATA
 
 void AArcUITester::BeginPlay()
 {
