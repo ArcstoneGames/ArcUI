@@ -5,6 +5,8 @@
 #include "ArcUITester.h"
 #include "ArcUITesterCustomization.h"
 
+#include "PropertyEditorModule.h"
+
 #define LOCTEXT_NAMESPACE "FArcUIFrameworkEditorModule"
 
 void FArcUIFrameworkEditorModule::StartupModule()

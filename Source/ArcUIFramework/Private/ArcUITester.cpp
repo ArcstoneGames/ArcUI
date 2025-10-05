@@ -8,6 +8,8 @@
 #include "ArcUIViewPayload.h"
 // CommonUI
 #include "CommonActivatableWidget.h"
+// UE5
+#include "Engine/GameInstance.h"
 
 
 void UArcUITester_Widget::PushViewPayload() const
@@ -71,7 +73,7 @@ void AArcUITester::RemoveContext()
 {
 	if (GetWorld()->WorldType == EWorldType::PIE)
 	{
-		if (auto* UISubsystem = GetGameInstance()->GetSubsystem<UArcUISubsystem>())
+		if (UArcUISubsystem* UISubsystem = GetGameInstance()->GetSubsystem<UArcUISubsystem>())
 		{
 			if (Context.IsValid())
 			{

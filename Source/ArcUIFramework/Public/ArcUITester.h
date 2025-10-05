@@ -8,6 +8,7 @@
 // generated
 #include "ArcUITester.generated.h"
 
+class UUserWidget;
 struct FArcUIViewPayload;
 class UCommonActivatableWidgetContainerBase;
 struct FArcUIContextPayload;

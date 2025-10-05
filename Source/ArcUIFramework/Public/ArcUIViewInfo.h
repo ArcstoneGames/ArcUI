@@ -3,6 +3,7 @@
 #pragma once
 
 // UE5
+#include "Blueprint/UserWidget.h"
 #include "GameplayTagContainer.h"
 #include "Engine/DataTable.h"
 // generated

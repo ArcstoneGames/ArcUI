@@ -8,6 +8,7 @@ public class ArcUICommon : ModuleRules
     public ArcUICommon(ReadOnlyTargetRules Target) : base(Target)
     {
         PCHUsage = ModuleRules.PCHUsageMode.UseExplicitOrSharedPCHs;
+        IWYUSupport = IWYUSupport.Full;
 
         PublicDependencyModuleNames.AddRange(
             new string[]

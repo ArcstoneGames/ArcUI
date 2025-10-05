@@ -3,6 +3,7 @@
 #pragma once
 
 #include "IDetailCustomization.h"
+#include "IPropertyTypeCustomization.h"
 
 struct FArcUITesterCustomization final : public IDetailCustomization
 {

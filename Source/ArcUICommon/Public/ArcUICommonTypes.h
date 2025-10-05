@@ -2,6 +2,9 @@
 
 #pragma once
 
+#include "Internationalization/Text.h"
+#include "Internationalization/Internationalization.h"
+
 namespace ArcUICommon
 {
 	static const FText PaletteCategory = NSLOCTEXT("Arcstone", "WidgetPaletteCategory", "Arcstone Games");
