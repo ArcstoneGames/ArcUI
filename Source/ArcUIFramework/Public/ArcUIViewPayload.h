@@ -2,9 +2,10 @@
 
 #pragma once
 
+// UE5
 #include "GameplayTagContainer.h"
 #include "StructUtils/InstancedStruct.h"
-
+// generated
 #include "ArcUIViewPayload.generated.h"
 
 USTRUCT(BlueprintType)
