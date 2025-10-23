@@ -39,6 +39,10 @@
 		{
 			"Name": "DataRegistry",
 			"Enabled": true
-		}
+		},
+        {
+            "Name": "WorldConditions",
+            "Enabled": true
+        }
 	]
 }

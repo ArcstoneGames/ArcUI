@@ -12,6 +12,7 @@
 
 struct FArcUIPresenterInfo;
 class UArcUIPresenter;
+struct FWorldConditionQueryDefinition;
 
 USTRUCT()
 struct FArcUIManagedPresenters
@@ -48,6 +49,8 @@ protected:
 	UClass* GetWidgetClass_Internal(FGameplayTag ViewTag, FGameplayTag ContextTag);
 
 	void CreatePresenter(FGameplayTag ContextTag, const FArcUIPresenterInfo& PresenterInfo);
+
+	bool AssessWorldCondition(const FWorldConditionQueryDefinition& QueryDefinition) const;
 
 	// Override this method to manage loaded presenters subclasses
 	virtual TSubclassOf<UArcUIPresenter> LoadPresenterSubclass(FGameplayTag ViewTag, const TSoftClassPtr<UArcUIPresenter>& AssetPointer);

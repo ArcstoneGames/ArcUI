@@ -4,6 +4,7 @@
 
 // UE5
 #include "GameplayTagContainer.h"
+#include "WorldConditionQuery.h"
 #include "Engine/DataTable.h"
 // generated
 #include "ArcUIViewInfo.generated.h"
@@ -20,19 +21,25 @@ struct ARCUIFRAMEWORK_API FArcUIContextAction final
 	FGameplayTag ContextTag;
 
 	/** Should this view be loaded when its context is added */
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category="Loading")
 	bool bLoadingTiedToContext{false};
 
+	UPROPERTY(EditAnywhere, Category="Loading", meta=(EditCondition="bLoadingTiedToContext", EditConditionHides, HideEditConditionToggle))
+	FWorldConditionQueryDefinition LoadingCondition;
+
 	/** Should this view be created when its context is added */
-	UPROPERTY(EditAnywhere)
+	UPROPERTY(EditAnywhere, Category="Creation")
 	bool bCreationTiedToContext{false};
 
+	UPROPERTY(EditAnywhere, Category="Creation", meta=(EditCondition="bCreationTiedToContext", EditConditionHides, HideEditConditionToggle))
+	FWorldConditionQueryDefinition CreationCondition;
+
 	/** On which layer to create the view's widget. None means outside of layers */
-	UPROPERTY(EditAnywhere, meta=(Categories="ArcUI.Layer", EditCondition="bCreationTiedToContext"))
+	UPROPERTY(EditAnywhere, Category="Creation", meta=(Categories="ArcUI.Layer", EditCondition="bCreationTiedToContext", EditConditionHides, HideEditConditionToggle))
 	FGameplayTag CreateOnLayerTag;
 
 	/** On which slot to add the view's widget. None means placed on screen */
-	UPROPERTY(EditAnywhere, meta=(EditCondition="bCreationTiedToContext"))
+	UPROPERTY(EditAnywhere, Category="Creation", meta=(EditCondition="bCreationTiedToContext", EditConditionHides, HideEditConditionToggle))
 	FName SlotName;
 };
 
@@ -57,4 +64,6 @@ struct ARCUIFRAMEWORK_API FArcUIViewInfo final : public FTableRowBase
 	/** Automatic creation patterns when contexts are requested */
 	UPROPERTY(EditAnywhere, Category=Context, meta=(TitleProperty="ContextTag"))
 	TArray<FArcUIContextAction> ContextActions;
+
+	virtual void OnDataTableChanged(const UDataTable* InDataTable, const FName InRowName) override;
 };

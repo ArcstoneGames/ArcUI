@@ -3,6 +3,7 @@
 #include "ArcUILoader.h"
 
 // ArcUI
+#include "ArcUIConditionSchema.h"
 #include "ArcUILayout.h"
 #include "ArcUILog.h"
 #include "ArcUIPresenter.h"
@@ -12,9 +13,9 @@
 #include "ArcUIViewInfo.h"
 // UE5
 #include "DataRegistrySubsystem.h"
+#include "WorldConditionContext.h"
 #include "Blueprint/UserWidget.h"
 // generated
-
 #include UE_INLINE_GENERATED_CPP_BY_NAME(ArcUILoader)
 
 namespace ArcUILoader
@@ -139,7 +140,7 @@ void UArcUILoader::OnContextAdded(FGameplayTag ContextTag)
 {
 	auto* UISubsystem = GetGameInstance()->GetSubsystem<UArcUISubsystem>();
 
-	ArcUILoader::ForEachRegisteredPresenter([this, &UISubsystem, &ContextTag](const FArcUIPresenterInfo& PresenterInfo)
+	ArcUILoader::ForEachRegisteredPresenter([this, &ContextTag](const FArcUIPresenterInfo& PresenterInfo)
 	{
 		if (PresenterInfo.bLoadingTiedToContext && PresenterInfo.ContextTag == ContextTag)
 		{
@@ -153,15 +154,15 @@ void UArcUILoader::OnContextAdded(FGameplayTag ContextTag)
 			{ return ContextTag == Action.ContextTag; }))
 		{
 			// (pre) loading
-			if (ContextAction->bLoadingTiedToContext)
+			if (ContextAction->bLoadingTiedToContext && AssessWorldCondition(ContextAction->LoadingCondition))
 			{
 				LoadWidgetSubclass(ViewInfo.ViewTag, ViewInfo.WidgetClass);
 			}
 
 			// creation
-			if (ContextAction->bCreationTiedToContext)
+			if (ContextAction->bCreationTiedToContext && AssessWorldCondition(ContextAction->CreationCondition))
 			{
-				UISubsystem->CreateWidgetOnLayout(ViewInfo.ViewTag, ContextAction->ContextTag, ContextAction->CreateOnLayerTag, ContextAction->SlotName);
+				UISubsystem->CreateWidgetOnLayout(ViewInfo.ViewTag, ContextAction->ContextTag, ContextAction->CreateOnLayerTag, ContextAction->SlotName);			
 			}
 		}
 	});
@@ -251,6 +252,31 @@ void UArcUILoader::CreatePresenter(FGameplayTag ContextTag, const FArcUIPresente
 	auto* Presenter = NewObject<UArcUIPresenter>(this, PresenterClass.Get());
 	ManagedPresenters.FindOrAdd(ContextTag).Presenters.Add(Presenter);
 	UISubsystem->RegisterPresenter(Presenter);
+}
+
+bool UArcUILoader::AssessWorldCondition(const FWorldConditionQueryDefinition& QueryDefinition) const
+{
+	if (QueryDefinition.IsValid())
+	{
+		FWorldConditionQuery Query;
+		const auto* Schema = GetDefault<UArcUIConditionSchema>();
+		const FWorldConditionContextData ContextData(*Schema);
+
+		FWorldConditionQueryState QueryState;
+		QueryState.Initialize(*this, QueryDefinition);
+
+		const FWorldConditionContext Context{QueryState, ContextData};					
+		if (Context.Activate())
+		{
+			const bool bResult = Context.IsTrue();
+			Context.Deactivate();
+			return bResult;
+		}
+
+		return false;
+	}
+	
+	return true;
 }
 
 TSubclassOf<UArcUIPresenter> UArcUILoader::LoadPresenterSubclass(FGameplayTag ViewTag, const TSoftClassPtr<UArcUIPresenter>& AssetPointer)
