@@ -2,7 +2,7 @@
 
 #pragma once
 
-// UE5
+// UE
 #include "Engine/DeveloperSettings.h"
 // generated
 #include "ArcUISettings.generated.h"

@@ -2,7 +2,7 @@
 
 #pragma once
 
-// UE5
+// UE
 #include "Components/ActorComponent.h"
 // generated
 #include "ArcUIPresenterComponent.generated.h"

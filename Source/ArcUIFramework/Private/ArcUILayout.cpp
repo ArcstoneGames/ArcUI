@@ -8,7 +8,7 @@
 #include "ArcUILog.h"
 // CommonUI
 #include "Widgets/CommonActivatableWidgetContainer.h"
-// generated
+
 #include UE_INLINE_GENERATED_CPP_BY_NAME(ArcUILayout)
 
 #if WITH_EDITOR

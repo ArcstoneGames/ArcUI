@@ -2,7 +2,7 @@
 
 #pragma once
 
-// UE5
+// UE
 #include "WorldConditionSchema.h"
 // generated
 #include "ArcUIConditionSchema.generated.h"

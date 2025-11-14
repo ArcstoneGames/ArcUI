@@ -2,7 +2,7 @@
 
 #pragma once
 
-// UE5
+// UE
 #include "GameplayTagContainer.h"
 #include "WorldConditionQuery.h"
 #include "Engine/DataTable.h"
@@ -10,6 +10,7 @@
 #include "ArcUIViewInfo.generated.h"
 
 class UArcUILayout;
+class UUserWidget;
 
 USTRUCT(BlueprintType)
 struct ARCUIFRAMEWORK_API FArcUIContextAction final

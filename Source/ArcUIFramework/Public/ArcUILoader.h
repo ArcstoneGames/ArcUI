@@ -4,7 +4,7 @@
 
 // ArcUI
 #include "ArcUIViewInfo.h"
-// UE5
+// UE
 #include "Subsystems/GameInstanceSubsystem.h"
 #include "Blueprint/UserWidget.h"
 // generated

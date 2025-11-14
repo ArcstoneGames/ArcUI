@@ -2,7 +2,7 @@
 
 #include "ArcUIConditionSchema.h"
 
-// UE5
+// UE
 #include "WorldConditionBase.h"
 
 bool UArcUIConditionSchema::IsStructAllowed(const UScriptStruct* InScriptStruct) const

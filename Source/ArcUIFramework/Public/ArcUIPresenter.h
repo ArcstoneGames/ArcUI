@@ -4,13 +4,14 @@
 
 // ArcUI
 #include "ArcUIContext.h"
-// UE5
+// UE
 #include "GameplayTagContainer.h"
 #include "StructUtils/InstancedStruct.h"
 #include "Engine/DataTable.h"
 // generated
 #include "ArcUIPresenter.generated.h"
 
+class UGameInstance;
 class UArcUISubsystem;
 class UUserWidget;
 class AActor;

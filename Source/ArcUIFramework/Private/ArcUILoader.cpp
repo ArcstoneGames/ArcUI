@@ -11,11 +11,11 @@
 #include "ArcUISubsystem.h"
 #include "ArcUITags.h"
 #include "ArcUIViewInfo.h"
-// UE5
+// UE
 #include "DataRegistrySubsystem.h"
 #include "WorldConditionContext.h"
 #include "Blueprint/UserWidget.h"
-// generated
+
 #include UE_INLINE_GENERATED_CPP_BY_NAME(ArcUILoader)
 
 namespace ArcUILoader

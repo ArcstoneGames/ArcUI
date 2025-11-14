@@ -2,9 +2,10 @@
 
 #pragma once
 
-// UE5
+// UE
 #include "GameplayTagContainer.h"
 #include "StructUtils/InstancedStruct.h"
+#include "UObject/Interface.h"
 // generated
 #include "ArcUIViewPayload.generated.h"
 

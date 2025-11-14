@@ -2,7 +2,7 @@
 
 #pragma once
 
-// UE5
+// UE
 #include "NativeGameplayTags.h"
 
 

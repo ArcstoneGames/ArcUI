@@ -2,7 +2,7 @@
 
 #pragma once
 
-// UE5
+// UE
 #include "Kismet/BlueprintFunctionLibrary.h"
 // generated
 #include "ArcUILibrary.generated.h"

@@ -6,7 +6,7 @@
 // CommonUI
 #include "CommonUserWidget.h"
 #include "Widgets/CommonActivatableWidgetContainer.h"
-// UE5
+// UE
 #include "GameplayTagContainer.h"
 // generated
 #include "ArcUILayout.generated.h"

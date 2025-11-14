@@ -4,7 +4,7 @@
 
 // ArcUIFramework
 #include "ArcUIContext.h"
-// UE5
+// UE
 #include "GameplayTagContainer.h"
 #include "StructUtils/InstancedStruct.h"
 #include "Subsystems/GameInstanceSubsystem.h"

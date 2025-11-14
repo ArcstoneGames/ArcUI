@@ -9,7 +9,7 @@
 #include "ArcUIPresenter.h"
 // CommonUI
 #include "CommonActivatableWidget.h"
-// generated
+
 #include UE_INLINE_GENERATED_CPP_BY_NAME(ArcUISubsystem)
 
 bool UArcUISubsystem::ShouldCreateSubsystem(UObject* Outer) const

@@ -2,7 +2,7 @@
 
 #pragma once
 
-// UE5
+// UE
 #include "StructUtils/InstancedStruct.h"
 // generated
 #include "ArcUIContext.generated.h"

@@ -4,7 +4,7 @@
 
 // CommonUI
 #include "CommonInputSubsystem.h"
-// generated
+
 #include UE_INLINE_GENERATED_CPP_BY_NAME(ArcUILibrary)
 
 int32 UArcUILibrary::InputSuspensions = 0;
