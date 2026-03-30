@@ -345,6 +345,16 @@ And the last part is the Widget implementation:
 ![CoinsImpl](Media/CoinsWidgetImpl.png)  
 And that's it! Our coins are now displayed when we pick them up!
 
+### Debugging panel
+
+Open the debugging panel from "Arcstone UI" (or "Arcstone Games" if you are using ArcCore).
+There you can check:
+* which contexts are added/removed
+* which views are loaded and how many intances they have
+* which presenters are registered and their context(s)
+
+*To Be Documented: screenshot*
+
 ### Mock testing
 
 *To Be Documented (advanced): mock testing your setup*

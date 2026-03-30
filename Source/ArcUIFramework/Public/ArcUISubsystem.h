@@ -17,6 +17,12 @@ class UArcUILayout;
 class ULocalPlayer;
 struct FArcUIContextData;
 
+#if !UE_BUILD_SHIPPING
+DECLARE_MULTICAST_DELEGATE_TwoParams(FOnArcUIContextAdded,
+	FGameplayTag /*ContextTag*/, const TInstancedStruct<FArcUIContextPayload>& /*Payload*/);
+DECLARE_MULTICAST_DELEGATE_OneParam(FOnArcUIContextRemoved, FGameplayTag /*ContextTag*/);
+#endif
+
 USTRUCT()
 struct FArcUIManagedWidget
 {
@@ -99,7 +105,11 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category="UI", BlueprintCosmetic)
 	void HideContext(UPARAM(meta=(Categories = "ArcUI.Context")) FGameplayTag ContextTag);
-
+	
+	const TArray<TObjectPtr<UArcUIPresenter>>& GetPresenters() const { return Presenters; }
+	const TArray<FArcUIManagedWidget>& GetManagedWidgets() const { return ManagedWidgets; }
+	const FGameplayTagContainer& GetContextTags() const { return ContextTags; }
+	
 	UFUNCTION(BlueprintCallable, Category="UI", BlueprintCosmetic)
 	void RegisterPresenter(UArcUIPresenter* Presenter);
 
@@ -131,6 +141,13 @@ public:
 
 	template<typename T>
 	T* GetCreatedWidget(FGameplayTag InViewTag, FGameplayTag InContextTag, FGameplayTag InLayerTag) const;
+
+#if !UE_BUILD_SHIPPING
+	FOnArcUIContextAdded     OnDebugContextAdded;
+	FOnArcUIContextRemoved   OnDebugContextRemoved;
+	FSimpleMulticastDelegate OnDebugPresenterChanged;
+	FSimpleMulticastDelegate OnDebugWidgetChanged;
+#endif
 
 protected:
 	UUserWidget* GetActiveWidgetOnLayer_Impl(FGameplayTag LayerTag) const;

@@ -44,6 +44,9 @@ public:
 	void OnContextAdded(FGameplayTag ContextTag);
 	void OnContextRemoved(FGameplayTag ContextTag);
 
+	const TMap<FGameplayTag, TSubclassOf<UUserWidget>>& GetManagedWidgetClasses() const { return ManagedWidgetClasses; }
+	const TMap<FGameplayTag, FArcUIManagedPresenters>& GetManagedPresenters() const { return ManagedPresenters; }
+
 protected:
 	[[nodiscard]]
 	UClass* GetWidgetClass_Internal(FGameplayTag ViewTag, FGameplayTag ContextTag);

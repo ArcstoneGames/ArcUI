@@ -1,4 +1,4 @@
-﻿using UnrealBuildTool;
+using UnrealBuildTool;
 
 public class ArcUIFrameworkEditor : ModuleRules
 {
@@ -18,8 +18,12 @@ public class ArcUIFrameworkEditor : ModuleRules
             {
                 "CoreUObject",
                 "Engine",
+                "GameplayTags",
+                "InputCore",
                 "Slate",
                 "SlateCore",
+                "ToolMenus",
+                "UnrealEd",
 
                 "ArcUIFramework",
             }

@@ -69,6 +69,10 @@ void UArcUISubsystem::AddContextWithPayload(FGameplayTag ContextTag, const TInst
 			Presenter->OnContextAdded(ContextTag, Payload);
 		}
 	}
+
+#if !UE_BUILD_SHIPPING
+	OnDebugContextAdded.Broadcast(ContextTag, Payload);
+#endif
 }
 
 void UArcUISubsystem::AddExclusiveContext(FGameplayTag ContextTag)
@@ -90,16 +94,17 @@ void UArcUISubsystem::AddExclusiveContextWithPayload(FGameplayTag ContextTag, co
 
 void UArcUISubsystem::RemoveContext(FGameplayTag ContextTag)
 {
-	if (!ensureMsgf(ContextTags.HasTagExact(ContextTag), TEXT("RemoveContext - context already removed or never added: %s"), *ContextTag.ToString()))
+	if (!ContextTags.HasTagExact(ContextTag))
 	{
+		UE_LOGFMT(LogArcUI, Warning, "UArcUISubsystem - context already removed or never added: {Tag}", ContextTag.ToString());
 		return;
 	}
 
 	ContextTags.RemoveTag(ContextTag);
 
 	const int32 RemovedCount = Payloads.Remove(ContextTag);
-	UE_CLOG(RemovedCount == 0, LogArcUI, Verbose, TEXT("RemoveContext: %s"), *ContextTag.ToString());
-	UE_CLOG(RemovedCount >= 0, LogArcUI, Verbose, TEXT("RemoveContext: %s with associated payload"), *ContextTag.ToString());
+	UE_CLOGFMT(RemovedCount == 0, LogArcUI, Verbose, "RemoveContext: no payload associated with {Tag}", ContextTag.ToString());
+	UE_CLOGFMT(RemovedCount > 0, LogArcUI, Verbose, "RemoveContext: {Count} payload(s) with associated {Tag}", RemovedCount, ContextTag.ToString());
 	
 	for (const auto& Presenter : Presenters)
 	{
@@ -111,6 +116,10 @@ void UArcUISubsystem::RemoveContext(FGameplayTag ContextTag)
 	}
 	
 	GetGameInstance()->GetSubsystem<UArcUILoader>()->OnContextRemoved(ContextTag);
+
+#if !UE_BUILD_SHIPPING
+	OnDebugContextRemoved.Broadcast(ContextTag);
+#endif
 }
 
 void UArcUISubsystem::ToggleContext(FGameplayTag ContextTag)
@@ -178,7 +187,7 @@ void UArcUISubsystem::RestoreContext()
 
 void UArcUISubsystem::ShowContext(FGameplayTag ContextTag)
 {
-	if (!ensureMsgf(!ContextTags.HasTagExact(ContextTag), TEXT("AddContext - context already added: %s"), *ContextTag.ToString()))
+	if (!ensureMsgf(ContextTags.HasTagExact(ContextTag), TEXT("ShowContext - context not present: %s"), *ContextTag.ToString()))
 	{
 		return;
 	}
@@ -195,7 +204,7 @@ void UArcUISubsystem::ShowContext(FGameplayTag ContextTag)
 
 void UArcUISubsystem::HideContext(FGameplayTag ContextTag)
 {
-	if (!ensureMsgf(!ContextTags.HasTagExact(ContextTag), TEXT("AddContext - context already added: %s"), *ContextTag.ToString()))
+	if (!ensureMsgf(ContextTags.HasTagExact(ContextTag), TEXT("HideContext - context not present: %s"), *ContextTag.ToString()))
 	{
 		return;
 	}
@@ -220,6 +229,10 @@ void UArcUISubsystem::RegisterPresenter(UArcUIPresenter* Presenter)
 	
 	Presenters.Add(Presenter);
 	UE_LOG(LogArcUI, Verbose, TEXT("RegisterPresenter - %s from %s"), *Presenter->GetName(), *Presenter->GetOuter()->GetName());
+	
+#if !UE_BUILD_SHIPPING
+	OnDebugPresenterChanged.Broadcast();
+#endif
 
 	Presenter->SetUISubsystem(this);
 
@@ -244,6 +257,10 @@ void UArcUISubsystem::UnRegisterPresenter(UArcUIPresenter* Presenter)
 	UE_CLOG(!Presenters.Contains(Presenter), LogArcUI, Warning, TEXT("RegisterPresenter - presenter already unregistered (or never registered)"));
 	
 	Presenters.Remove(Presenter);
+	
+#if !UE_BUILD_SHIPPING
+	OnDebugPresenterChanged.Broadcast();
+#endif
 }
 
 void UArcUISubsystem::OnPlayerAdded(ULocalPlayer* LocalPlayer)
@@ -295,6 +312,10 @@ UUserWidget* UArcUISubsystem::CreateWidgetOnLayout(FGameplayTag InViewTag, FGame
 	{
 		auto* NewWidget = Layout->PushWidgetToLayer(InLayerTag, ActivatableClass);
 		ManagedWidgets.Add({NewWidget, InViewTag, InContextTag, InLayerTag});
+		
+#if !UE_BUILD_SHIPPING
+		OnDebugWidgetChanged.Broadcast();
+#endif
 		UE_LOG(LogArcUI, Verbose, TEXT("CreateWidgetOnLayout - Widget %s from View [%s], with context [%s] was pushed on layer [%s]"),
 			*NewWidget->GetName(), *InViewTag.ToString(), *InContextTag.ToString(), *InLayerTag.ToString());
 		return NewWidget;
@@ -315,6 +336,10 @@ UUserWidget* UArcUISubsystem::CreateWidgetOnLayout(FGameplayTag InViewTag, FGame
 		}
 
 		ManagedWidgets.Add({NewWidget, InViewTag, InContextTag, InLayerTag});
+		
+#if !UE_BUILD_SHIPPING
+		OnDebugWidgetChanged.Broadcast();
+#endif
 		UE_LOG(LogArcUI, Verbose, TEXT("CreateWidgetOnLayout - Widget %s from View [%s], with context [%s] was added to parent %s on layer [%s]"),
 			*NewWidget->GetName(), *InViewTag.ToString(), *InContextTag.ToString(), *ParentWidget->GetName(), *InLayerTag.ToString());
 		return NewWidget;
@@ -350,6 +375,10 @@ void UArcUISubsystem::DestroyWidget(FGameplayTag InViewTag, FGameplayTag InConte
 			++ItemIndex;
 		}
 	}
+	
+#if !UE_BUILD_SHIPPING
+	OnDebugWidgetChanged.Broadcast();
+#endif
 }
 
 UUserWidget* UArcUISubsystem::GetActiveWidgetOnLayer_Impl(FGameplayTag LayerTag) const
