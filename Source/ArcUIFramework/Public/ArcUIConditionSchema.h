@@ -13,5 +13,6 @@ class ARCUIFRAMEWORK_API UArcUIConditionSchema : public UWorldConditionSchema
 {
 	GENERATED_BODY()
 
+public:
 	virtual bool IsStructAllowed(const UScriptStruct* InScriptStruct) const override;
 };

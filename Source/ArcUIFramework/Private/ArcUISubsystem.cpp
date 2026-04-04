@@ -254,7 +254,7 @@ void UArcUISubsystem::RegisterPresenter(UArcUIPresenter* Presenter)
 
 void UArcUISubsystem::UnRegisterPresenter(UArcUIPresenter* Presenter)
 {
-	UE_CLOG(!Presenters.Contains(Presenter), LogArcUI, Warning, TEXT("RegisterPresenter - presenter already unregistered (or never registered)"));
+	UE_CLOGFMT(!Presenters.Contains(Presenter), LogArcUI, Warning, "UnRegisterPresenter - presenter {Presenter} already unregistered (or never registered)", Presenter->GetName());
 	
 	Presenters.Remove(Presenter);
 	

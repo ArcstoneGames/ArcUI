@@ -5,7 +5,6 @@
 // ArcUI
 #include "ArcUIConditionSchema.h"
 
-UE_DISABLE_OPTIMIZATION
 void FArcUIViewInfo::OnDataTableChanged(const UDataTable* InDataTable, const FName InRowName)
 {
 	FTableRowBase::OnDataTableChanged(InDataTable, InRowName);
@@ -16,4 +15,3 @@ void FArcUIViewInfo::OnDataTableChanged(const UDataTable* InDataTable, const FNa
 		Action.CreationCondition.SetSchemaClass(UArcUIConditionSchema::StaticClass());		
 	}
 }
-UE_ENABLE_OPTIMIZATION
